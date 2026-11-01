@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    English localization (§14.6). Covers the string resources currently defined
+    in res/values/strings.xml. Many UI literals still live inline in Kotlin and
+    are not yet externalized — full i18n is a separate effort.
+-->
+<resources>
+    <string name="app_name">AEGIS</string>
+    <string name="app_icon_calc_label">Calculator</string>
+    <string name="app_icon_notes_label">Notes</string>
+    <string name="app_icon_weather_label">Weather</string>
+    <string name="app_icon_clock_label">Clock</string>
+    <string name="app_icon_compass_label">Compass</string>
+    <string name="app_icon_files_label">Files</string>
+    <string name="app_icon_calendar_label">Calendar</string>
+    <string name="app_icon_flashlight_label">Flashlight</string>
+    <string name="app_icon_music_label">Music</string>
+    <string name="app_icon_gallery_label">Gallery</string>
+    <string name="app_icon_recorder_label">Recorder</string>
+
+    <!-- Bottom navigation (§13) -->
+    <string name="nav_chats">Chats</string>
+    <string name="nav_contacts">Contacts</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_profile">My profile</string>
+    <!-- Short tab caption: the full "My profile" does not fit under the glyph (see TopLevelDestination). -->
+    <string name="nav_profile_tab">Profile</string>
+
+    <!-- Security indicators -->
+    <string name="security_e2e">E2E</string>
+    <string name="tor_status_disabled">Tor off</string>
+    <string name="tor_status_starting">Tor: starting…</string>
+    <string name="tor_status_bootstrapping">Tor: connecting %1$d%%</string>
+    <string name="tor_status_connected">Tor active</string>
+    <string name="tor_status_unavailable">Tor not built</string>
+    <string name="tor_status_error">Tor: error</string>
+    <string name="net_status_direct">No Tor / direct connection</string>
+    <string name="net_status_switching">Switching network…</string>
+
+    <!-- Placeholder screens -->
+    <string name="chats_empty_title">No chats yet</string>
+    <string name="chats_empty_subtitle">Add a contact by nickname and exchange keys in person to start a secure conversation.</string>
+    <!-- HUD layout (docs/ui_hud.md): interface chrome labels -->
+    <string name="chats_group_chats">Chats · %1$d</string>
+    <string name="chat_header_section">Messages</string>
+    <string name="contacts_title">Contacts</string>
+    <string name="contacts_placeholder">Your contacts will appear here. No phone number is required — just a nickname and a key fingerprint.</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_placeholder">Security profiles, privacy, network and Tor, storage. The default profile is “Paranoid”.</string>
+    <string name="profile_title">My profile</string>
+    <string name="profile_placeholder">Nickname, avatar, account recovery (mnemonic phrase), multi-device and account transfer.</string>
+
+    <!-- Crypto core diagnostics -->
+    <string name="crypto_native_ready">Native crypto core: %1$s</string>
+    <string name="crypto_native_absent">Native crypto core not built (scaffold)</string>
+    <string name="unread_count">%1$d</string>
+
+    <!-- Onboarding / account (§7.1) -->
+    <string name="onboarding_welcome_title">Welcome to AEGIS</string>
+    <string name="onboarding_welcome_subtitle">Multi-layer encryption · Tor by default · No phone number. Your account is a cryptographic key pair, not a number or an e-mail.</string>
+    <string name="onboarding_create">Create account</string>
+    <string name="onboarding_create_auto">Quick create (no password)</string>
+    <string name="onboarding_restore">Restore from phrase</string>
+    <string name="onboarding_native_missing">Native crypto core not built — account creation unavailable. Build the Rust module (see README.md).</string>
+
+    <string name="account_login_label">Login (nickname)</string>
+    <string name="account_login_hint">Letters and digits, no phone or e-mail</string>
+    <string name="account_password_label">Login password</string>
+    <string name="account_password_confirm_label">Repeat password</string>
+    <string name="account_password_hint">Protects the mnemonic on this device (Argon2id)</string>
+    <string name="account_multidevice_label">Allow on multiple devices</string>
+    <string name="account_multidevice_hint">Disabled by default — safer (§7.1.1)</string>
+    <string name="account_create_submit">Create</string>
+    <string name="account_restore_submit">Restore</string>
+    <string name="account_password_mismatch">Passwords do not match</string>
+    <string name="account_password_too_short">Password too short (minimum 8 characters)</string>
+    <string name="account_login_empty">Enter a login</string>
+    <string name="account_login_too_short">Login is too short (minimum 2 characters)</string>
+    <string name="account_login_too_long">Login is too long (maximum 32 characters)</string>
+    <string name="account_login_invalid">Login: letters, digits and underscore only, no spaces</string>
+    <string name="account_login_looks_email">Login must not be an e-mail address</string>
+    <string name="account_login_looks_phone">Login must not be a phone number</string>
+    <string name="account_login_optional_hint">Optional. Letters and digits, no phone or e-mail. You can set it later in Settings</string>
+    <string name="acct_err_not_unlocked">The account must be unlocked</string>
+    <string name="acct_err_already_has_password">A sign-in password is already set</string>
+    <string name="acct_err_add_password">Could not save login and password. Unlock again and retry</string>
+
+    <string name="account_restore_title">Account recovery</string>
+    <string name="account_restore_subtitle">Enter your mnemonic phrase (12–24 words separated by spaces). Then set a new password for this device.</string>
+    <string name="account_restore_phrase_label">Mnemonic phrase</string>
+    <string name="account_restore_invalid">Invalid phrase. Check the words and their order.</string>
+
+    <!-- Replacing the account stored on the device ("Forgot your password?" path, §7.1/§7.4) -->
+    <string name="onboarding_back_to_unlock">Back to sign-in</string>
+    <string name="account_create_replace_warning">This device already holds an account. A new one is created only on a clean device: the current account’s conversations, contacts, keys (PSK) and settings will be permanently deleted.</string>
+    <string name="account_no_password_warning">Without a password the account is protected only by the phone’s screen lock: anyone who knows the phone PIN can open your conversations. You can add a password later in Security settings.</string>
+    <string name="account_restore_replace_hint">This account’s phrase restores access together with the conversations on this device. Another account’s phrase requires a full wipe of the device — you will be asked to confirm.</string>
+    <string name="account_replace_title">Delete the current account’s data?</string>
+    <string name="account_replace_create_text">The current account’s conversations, contacts, encryption keys (PSK), contact requests and settings will be permanently deleted from this device. Its recovery phrase can bring back only the account itself — conversations and contacts on this device will not return.</string>
+    <string name="account_replace_create_confirm">Delete and create</string>
+    <string name="account_replace_restore_text">This phrase belongs to a different account. Before restoring it, the current account’s conversations, contacts, encryption keys (PSK), contact requests and settings will be permanently deleted from this device.</string>
+    <string name="account_replace_restore_confirm">Delete and restore</string>
+
+    <!-- Recovery phrase screen (shown once) -->
+    <string name="recovery_title">Save your recovery phrase</string>
+    <string name="recovery_warning">This is the ONLY way to recover your account. Write the phrase on paper and keep it offline. Losing the phrase and password = permanent loss of access to your account and conversations. That is the price of real E2EE — we cannot recover them for you.</string>
+    <string name="recovery_screenshot_note">Screenshots are blocked (FLAG_SECURE). Do not photograph with another device and do not store the phrase in the cloud.</string>
+    <string name="recovery_account_id">Account ID: %1$s</string>
+    <string name="recovery_fingerprint">Fingerprint: %1$s</string>
+    <string name="recovery_ack">I wrote down the phrase and understand the risk</string>
+
+    <!-- Unlock -->
+    <string name="unlock_title">Sign in to AEGIS</string>
+    <string name="unlock_subtitle">Enter your password to unlock account %1$s.</string>
+    <string name="unlock_submit">Sign in</string>
+    <string name="unlock_wrong_password">Wrong password</string>
+    <string name="unlock_forgot">Forgot your password? Recover your account with the mnemonic phrase.</string>
+    <string name="unlock_biometric_button">Sign in with biometrics</string>
+    <string name="unlock_biometric_title">Sign in to AEGIS</string>
+    <string name="unlock_biometric_subtitle">Confirm sign-in with biometrics</string>
+    <string name="unlock_biometric_use_password">Use password</string>
+    <string name="unlock_biometric_error">Biometric sign-in unavailable. Enter your password.</string>
+    <string name="unlock_biometric_reset">Fingerprint sign-in was turned off: the fingerprints on this phone changed or the app’s protection was upgraded. Sign in with your password and turn it on again in Security settings.</string>
+    <string name="unlock_wrong_password_wipe">Wrong password. Attempts left before the data is wiped: %1$d</string>
+    <string name="unlock_locked_out">Too many wrong attempts. Try again in %1$s</string>
+    <string name="unlock_incoming_call">Incoming call. Sign in to see who is calling and answer.</string>
+
+    <!-- Profile (§14.1) -->
+    <string name="profile_account_id">Account ID</string>
+    <string name="profile_fingerprint">Fingerprint (safety number)</string>
+    <string name="profile_login">Login</string>
+    <string name="profile_no_login">not set</string>
+    <string name="profile_creation_mode">Creation method</string>
+    <string name="profile_creation_manual">Login and password</string>
+    <string name="profile_creation_auto">Auto (no password)</string>
+    <string name="profile_multidevice">Multi-device</string>
+    <string name="profile_allowed">allowed</string>
+    <string name="profile_forbidden">disabled</string>
+    <string name="profile_lock">Lock</string>
+    <string name="profile_show_recovery">Show recovery phrase</string>
+    <string name="profile_delete">Delete account (crypto-shredding)</string>
+    <string name="profile_delete_confirm_title">Delete account?</string>
+    <string name="profile_delete_confirm_text">Keys and the sealed record will be destroyed. This is irreversible: without a saved phrase, recovery is impossible.</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_continue">Continue</string>
+    <string name="common_back">Back</string>
+
+    <!-- P4: manual container key (PSK) exchange, §6.2/§10.3 -->
+    <string name="contacts_subtitle">No phone number — just a nickname and a key fingerprint. Here you exchange the container key (PSK) for layer A manually.</string>
+    <string name="psk_hub_title">Container keys (PSK)</string>
+    <string name="psk_hub_subtitle">A PSK is a layer-A secret. It is exchanged STRICTLY in person and offline (QR / phrase / NFC) and NEVER travels the network. The server only ever sees the encrypted container.</string>
+    <string name="psk_new">New key exchange</string>
+    <string name="psk_empty">No container keys yet. Exchange a PSK with your contact in person.</string>
+    <string name="psk_native_missing">Native crypto core not built — PSK exchange unavailable. Build the Rust module (see README.md).</string>
+    <string name="psk_contact_label">Contact name (nickname)</string>
+    <string name="psk_contact_hint">How to display this contact on your device</string>
+    <string name="psk_contact_required">Enter a contact name</string>
+    <string name="psk_method_title">Exchange method (in person only)</string>
+    <string name="psk_method_show">Show my key (QR / NFC)</string>
+    <string name="psk_method_scan">Scan contact’s QR</string>
+    <string name="psk_method_mnemonic">Enter contact’s phrase</string>
+    <string name="psk_method_nfc_receive">Receive via NFC (tap)</string>
+    <string name="psk_warning_inperson">Show ONLY in person. The key must not end up in a photo, the cloud or the network. It is never copied to the clipboard.</string>
+    <string name="psk_flagsecure_note">Screenshots are blocked (FLAG_SECURE). The QR hides automatically after %1$d s.</string>
+    <string name="psk_show_qr_hidden">QR hidden for safety. Tap to show again.</string>
+    <string name="psk_qr_unavailable">Could not build the QR code. Share the key over NFC or as a mnemonic phrase.</string>
+    <string name="psk_qr_bundle_via_nfc">The QR carries the container key (layer A). For an instant secure session (layer B), transfer the full prekey bundle over NFC — hold the devices close while this screen is open.</string>
+    <string name="psk_show_mnemonic_toggle">Show as phrase (24 words)</string>
+    <string name="psk_show_mnemonic_hide">Hide phrase</string>
+    <string name="psk_show_fingerprint">Key fingerprint (verify aloud)</string>
+    <string name="psk_nfc_present_hint">Or hold the contact’s device close to transfer the key over NFC (while this screen is open).</string>
+    <string name="psk_nfc_unavailable">NFC is unavailable or disabled on this device. Use QR or the phrase.</string>
+    <string name="psk_scan_prompt">Point the camera at the contact’s QR (in person only)</string>
+    <string name="psk_scan_cancelled">Scan cancelled.</string>
+    <string name="psk_mnemonic_label">Mnemonic phrase (24 words separated by spaces)</string>
+    <string name="psk_mnemonic_submit">Import key</string>
+    <string name="psk_receive_nfc_waiting">Waiting for a tap… Hold the contact’s device where the key is being shown.</string>
+    <string name="psk_import_success">Container key saved for “%1$s”.</string>
+    <string name="psk_source_generated">Created here</string>
+    <string name="psk_source_qr">Received via QR</string>
+    <string name="psk_source_mnemonic">Entered as phrase</string>
+    <string name="psk_source_nfc">Received via NFC</string>
+    <string name="psk_source_remote">Derived when added by address</string>
+    <string name="psk_card_created">Added: %1$s</string>
+    <string name="psk_delete">Delete key</string>
+    <string name="psk_delete_confirm_title">Delete contact’s key?</string>
+    <string name="psk_delete_confirm_text">Layer A for this contact will stop working until you exchange keys again.</string>
+    <string name="psk_done">Done</string>
+    <string name="psk_open_chat">Open chat</string>
+    <string name="psk_relay_missing_hint">Onion relay address is not set. QR exchange will create the chat and keys, but messages will not be delivered until you enter the relay under Settings → Network and Tor.</string>
+    <string name="psk_relay_missing_hint_direct">The no-Tor server is not configured. QR exchange will create the chat and keys, but messages will not be delivered until you turn Tor on or enter the relay HTTPS address under Settings → Network and Tor.</string>
+    <string name="relay_missing_banner">Onion relay address is not set — messages are not delivered. Enter it in Settings → Network and Tor.</string>
+    <string name="relay_missing_banner_direct">The no-Tor server is not configured — messages are not delivered. Turn Tor on or enter the relay HTTPS address in Settings → Network and Tor.</string>
+    <string name="debug_build_warning">Debug build — not for real conversations. Developer mode lets anyone extract the data of an open account from it.</string>
+    <string name="psk_nfc_service_desc">AEGIS: container key (PSK) exchange over NFC</string>
+
+    <!-- Notifications (§14.5) -->
+    <string name="notif_service_title">AEGIS is protected</string>
+    <string name="notif_service_text">Receiving messages over Tor is active</string>
+    <string name="notif_service_text_direct">Receiving messages is active (no Tor, direct connection)</string>
+    <string name="notif_call_media_title">AEGIS: call</string>
+    <string name="notif_call_media_text">Encrypted call in progress</string>
+    <string name="notif_new_message">New message</string>
+    <string name="notif_incoming_call">Incoming call</string>
+    <string name="notif_locked_messages">New messages. Sign in to read them</string>
+    <string name="notif_locked_call">Incoming call. Sign in to answer</string>
+    <string name="notif_incoming_video_call">Incoming video call</string>
+    <string name="notif_call_accept">Accept</string>
+    <string name="notif_call_decline">Decline</string>
+    <string name="notif_channel_service_name">Background sync</string>
+    <string name="notif_channel_service_desc">Receiving messages in the background (§7.6)</string>
+    <string name="notif_channel_messages_name">Messages</string>
+    <string name="notif_channel_calls_name">Calls</string>
+    <string name="notif_attachment_image">Photo</string>
+    <string name="notif_attachment_video">Video</string>
+    <string name="notif_attachment_file">File</string>
+    <string name="notif_attachment_with_caption">%1$s · %2$s</string>
+
+    <!-- Calls (P8, §7.5/§10.10) -->
+    <string name="call_type_video">Video call</string>
+    <string name="call_type_voice">Voice call</string>
+    <string name="call_camera_off">Camera off</string>
+    <string name="call_sas_prompt">Verification code (say it aloud):</string>
+    <string name="call_psk_protected">Hardened with a manual PSK (§6.2) — server MITM ruled out</string>
+    <string name="call_psk_absent">No manual PSK — verify the code by voice</string>
+    <string name="call_media_tor">Media over Tor: more privacy, possible latency</string>
+    <string name="call_media_direct">No Tor / direct connection: IP visible to the peer and the server</string>
+    <string name="call_path_relay_fallback">Networks allow no direct path — media goes through the server\'s relay</string>
+    <string name="call_reconnecting">Path lost, restoring the connection…</string>
+    <!-- Call screen on a locked phone (§14.3): no name, no details -->
+    <string name="call_locked_title">Incoming call</string>
+    <string name="call_locked_hint">Unlock the phone to see who is calling and the verification code.</string>
+    <string name="call_no_webrtc">Native WebRTC is unavailable in this build. Signaling and keys work, but there is no real media stream — the call will not be shown as connected.</string>
+    <string name="call_ended_default">Ended</string>
+    <string name="call_btn_decline">Decline</string>
+    <string name="call_btn_accept">Accept</string>
+    <string name="call_btn_mic">Microphone</string>
+    <string name="call_btn_camera">Camera</string>
+    <string name="call_btn_switch_camera">Switch</string>
+    <string name="call_btn_hangup">Hang up</string>
+    <string name="call_phase_dialing">Calling…</string>
+    <string name="call_phase_ringing">Incoming call</string>
+    <string name="call_phase_connecting">Connecting…</string>
+    <string name="call_phase_active">In call</string>
+    <string name="call_phase_ending">Ending…</string>
+    <!-- Call end reasons / errors (shown in CallScreen) -->
+    <string name="call_error_start">Could not start the call: %1$s</string>
+    <string name="call_error_negotiation">Negotiation error: %1$s</string>
+    <string name="call_error_accept">Could not accept the call: %1$s</string>
+    <string name="call_error_no_offer">No offer</string>
+    <string name="call_error_fgs">The system denied microphone access for the call. Open the app and try again.</string>
+    <string name="call_error_relay_required">The Tor relay is unavailable. The anonymous call was not started so that your IP address stays hidden.</string>
+    <string name="call_media_error">Media: %1$s</string>
+    <string name="call_connection_ended">Connection ended</string>
+    <string name="call_reason_busy">Contact is busy</string>
+    <string name="call_reason_declined">Call declined</string>
+    <string name="call_reason_ended">Call ended</string>
+    <string name="call_reason_timeout">No answer</string>
+    <string name="call_reason_unreachable">Could not connect: the network blocks the media stream</string>
+
+    <!-- Call setup stages (timeline on the call screen, §7.5) -->
+    <string name="call_stages_title">Connection stages</string>
+    <string name="call_stage_at_fraction">+%1$.1fs</string>
+    <string name="call_stage_at_seconds">+%1$ds</string>
+    <string name="call_stage_outgoing">Dialing</string>
+    <string name="call_stage_incoming">Incoming call</string>
+    <string name="call_stage_incoming_accepted">Call accepted</string>
+    <string name="call_stage_service">Call service (microphone)</string>
+    <string name="call_stage_turn">TURN relay</string>
+    <string name="call_stage_engine">Media engine ready</string>
+    <string name="call_stage_local_sdp">Encryption parameters ready</string>
+    <string name="call_stage_signal_offer">Sending invitation via the relay…</string>
+    <string name="call_stage_signal_offer_done">Invitation delivered</string>
+    <string name="call_stage_signal_answer">Sending answer via the relay…</string>
+    <string name="call_stage_signal_answer_done">Answer received</string>
+    <string name="call_stage_keys">Call keys derived</string>
+    <string name="call_stage_ice">Looking for a network path…</string>
+    <string name="call_stage_ice_done">Path found</string>
+    <string name="call_stage_media">Starting the media stream…</string>
+    <string name="call_stage_media_done">Media protected (DTLS-SRTP + frame AEAD)</string>
+    <string name="call_stage_ended">Call ended</string>
+    <!-- Short stage notes -->
+    <string name="call_stage_detail_accepted">you tapped “Accept”</string>
+    <string name="call_stage_detail_turn_absent_tor">unavailable — an anonymous call cannot start without it</string>
+    <string name="call_stage_detail_turn_ready_tor">over Tor — the only media path</string>
+    <string name="call_stage_detail_turn_ready_direct">server TURN — fallback when there is no direct path</string>
+    <string name="call_stage_detail_turn_stun_only">server STUN only: without TURN a peer behind NAT or in Tor mode is unreachable</string>
+    <string name="call_stage_detail_turn_absent_direct">the server gave no STUN/TURN — only a same-network connection is possible</string>
+    <string name="call_stage_detail_keys_psk">hardened with a manual PSK</string>
+    <string name="call_stage_detail_keys_plain">no manual PSK — verify the code by voice</string>
+    <string name="call_stage_detail_frame_layer">frame AEAD attached</string>
+    <string name="call_error_frame_crypto">Could not enable media frame encryption</string>
+    <string name="call_frame_layer">Frame layer: AES-128-GCM on Signal+PSK keys over DTLS-SRTP</string>
+    <string name="call_frame_layer_off">Frame layer not attached — media is DTLS-SRTP only</string>
+    <string name="call_stage_detail_path_direct">directly with the peer</string>
+    <string name="call_stage_detail_path_relay">through the relay</string>
+    <string name="call_stage_detail_no_path">the network blocks the media stream</string>
+    <string name="call_stage_detail_reconnecting">restoring the path</string>
+
+    <!-- Settings: main screen (§14) -->
+    <string name="settings_security_profile_title">Security profile</string>
+    <string name="settings_security_profile_active">Active profile: %1$s</string>
+    <string name="settings_crypto_core_title">Crypto core (diagnostics)</string>
+
+    <!-- Settings: Diagnostics (key-exchange / delivery log) -->
+    <string name="diag_section_title">Diagnostics</string>
+    <string name="diag_section_desc">Turn recording ON BEFORE the failing action (key exchange, send, call, unlock). The log records detailed app steps, native WebRTC lines, and unclean process death. It contains no secrets (PSK, message text, mailbox ids) — send the file to see which step failed.</string>
+    <string name="diag_toggle_title">Log recording</string>
+    <string name="diag_toggle_sub">Writes a detailed log: account, Tor, relay, key exchange, messages, calls, ICE/TURN, native WebRTC, device sync.</string>
+    <string name="diag_size">Log size: %1$s</string>
+    <string name="diag_share">Send log as a file</string>
+    <string name="diag_save_file">Save as a file</string>
+    <string name="diag_clear">Clear log</string>
+    <string name="diag_export_empty">Log is empty — enable recording and retry the action</string>
+    <string name="diag_export_saved">Log file saved</string>
+    <string name="diag_export_fail">Could not send the log</string>
+
+    <string name="preset_paranoid">Paranoid</string>
+    <string name="preset_balanced">Balanced</string>
+    <string name="preset_fast">Fast</string>
+    <string name="preset_custom">Custom</string>
+
+    <!-- Settings: Network and Tor (§14.7) -->
+    <string name="tor_section_title">Network and Tor</string>
+    <string name="tor_status_line">Status: %1$s</string>
+    <string name="tor_not_built_warning">Built-in Tor (Arti) is not compiled into this build. The indicator does NOT show “connected”: there is no onion traffic and no SOCKS port. Use a full build with the tor feature.</string>
+    <string name="tor_toggle_title">Tor</string>
+    <string name="tor_toggle_call_locked">The network mode does not change during a call — switch it after hanging up.</string>
+    <string name="tor_off_dialog_title">Turn off Tor?</string>
+    <string name="tor_off_dialog_body">Without Tor the app connects to the AEGIS server directly over HTTPS. Encryption of messages and calls stays the same — what changes is what others see:\n\n• your provider will see that you connect to the AEGIS server;\n• the server will see your IP address and can match it with your mailbox addresses, i.e. indirectly learn who talks to whom;\n• in calls the peer will see your IP address.\n\nThe built-in Tor does not start at all in this mode.</string>
+    <string name="tor_off_dialog_confirm">Turn off Tor</string>
+    <string name="tor_off_dialog_cancel">Keep Tor</string>
+    <string name="tor_mode_always">All traffic through the built-in Tor (recommended)</string>
+    <string name="tor_mode_off">Off: direct HTTPS connection to the AEGIS server</string>
+    <string name="tor_bridges_title">Bridges / pluggable transports (censorship circumvention)</string>
+    <string name="tor_pt_none">PT binaries are not bundled in this build — only “vanilla” bridges are available.</string>
+    <string name="tor_pt_available">PT binaries bundled: %1$s</string>
+    <string name="tor_bridge_off">No bridges (direct Tor)</string>
+    <string name="tor_bridge_obfs4">Built-in obfs4 (recommended under censorship)</string>
+    <string name="tor_bridge_snowflake">Built-in Snowflake (disguised as a video call)</string>
+    <string name="tor_bridge_custom">Custom bridges (bridge lines)</string>
+    <string name="tor_bridge_custom_help">Bridge lines (obfs4/snowflake/meek_lite), one per line. The PT binary is substituted automatically from the bundled ones. Fresh bridges — at bridges.torproject.org.</string>
+    <string name="tor_bridge_lines_label">Bridge lines</string>
+    <string name="tor_bridge_rotate_note">Built-in bridges rotate periodically. If it will not connect — choose “Custom bridges” and paste fresh ones from bridges.torproject.org.</string>
+    <string name="tor_bridge_apply">Apply bridge settings</string>
+    <string name="tor_onion_hint">&lt;address&gt;.onion[:port] — a full URL is also accepted</string>
+    <string name="tor_onion_test">Test reachability over Tor</string>
+    <string name="tor_onion_source_auto">Addresses are discovered automatically (built-in defaults + signed server config). No manual entry needed.</string>
+    <string name="tor_onion_source_manual">Addresses set manually — automatic updates are not applied. Onion and HTTPS must lead to the same server.</string>
+    <string name="tor_onion_reset_auto">Restore automatic addresses</string>
+    <string name="relay_address_title">Relay address</string>
+    <string name="relay_onion_label">Onion — used with Tor</string>
+    <string name="relay_https_label">HTTPS — used without Tor (same server)</string>
+    <string name="relay_https_hint">https://domain[:port]</string>
+    <string name="relay_test_hint_tor">The onion address is tested over Tor. The HTTPS address can only be tested without Tor: a direct connection would reveal your IP.</string>
+    <string name="relay_test_hint_direct">The HTTPS address is tested directly. The onion address can only be tested with Tor on.</string>
+    <string name="relay_https_test">Test HTTPS connection</string>
+    <string name="relay_reason_onion_not_set">The onion relay address is not set — with Tor, messages are not delivered.</string>
+    <string name="relay_reason_onion_invalid">The onion relay address is invalid: a v3 (56-character) .onion is required.</string>
+    <string name="relay_reason_tor_not_ready">Tor is still connecting — messages will go out once it is up.</string>
+    <string name="relay_reason_https_not_set">The no-Tor server is not configured: the relay HTTPS address is not set. Turn Tor on or enter the address below.</string>
+    <string name="relay_reason_https_invalid">The relay HTTPS address is invalid: https://domain[:port] is required.</string>
+    <string name="tor_diag_bootstrapping">Connecting… %1$d%%</string>
+    <string name="tor_diag_starting">Starting…</string>
+    <string name="tor_diag_disabled">Disabled</string>
+    <string name="tor_diag_error">Error: %1$s</string>
+
+    <!-- Settings: Metadata privacy — fan-out jitter / cover-traffic (§14.7, #3b) -->
+    <string name="meta_privacy_title">Metadata privacy</string>
+    <string name="meta_privacy_desc">Obscures the timing and the fact of sending during delivery (fan-out). Does not affect E2EE of message content — only transport metadata. By default both options follow the security profile.</string>
+    <string name="meta_privacy_mode_auto">Auto (follow security profile)</string>
+    <string name="meta_privacy_jitter_title">Delivery jitter</string>
+    <string name="meta_privacy_jitter_desc">Randomizes the order and adds delays to drops so a relay observer cannot correlate them by timing. More jitter means more privacy but noticeable delay (including call setup).</string>
+    <string name="meta_privacy_jitter_max">Maximum (up to 2.5 s per drop)</string>
+    <string name="meta_privacy_jitter_moderate">Moderate (up to 0.8 s per drop)</string>
+    <string name="meta_privacy_jitter_off">Off (no delay)</string>
+    <string name="meta_privacy_cover_title">Cover traffic</string>
+    <string name="meta_privacy_cover_desc">Background dummy drops plus padding of real batches with decoys to hide the fact and volume of sending. Active when the relay is reachable (over Tor or HTTPS) and the account is unlocked; uses a little extra traffic/battery.</string>
+    <string name="meta_privacy_cover_on">On</string>
+    <string name="meta_privacy_cover_off">Off</string>
+
+    <!-- Settings: Security (§14.3) -->
+    <string name="sec_section_title">Security</string>
+    <string name="sec_credentials_title">Sign-in login and password</string>
+    <string name="sec_credentials_desc">Login is the public nickname used during key exchange. The password (Argon2id) protects the mnemonic and, through it, the conversation database and PSK keys on this device; it also unlocks biometrics and the duress password.</string>
+    <string name="sec_credentials_current">Now: %1$s</string>
+    <string name="sec_credentials_add">Add login and password</string>
+    <string name="sec_credentials_set_login">Set login</string>
+    <string name="sec_credentials_change_login">Change login</string>
+    <string name="sec_credentials_dialog_title_add">Login and password</string>
+    <string name="sec_credentials_dialog_title_login">Login</string>
+    <string name="sec_credentials_dialog_desc_add">After saving, this device will require the password to unlock. The mnemonic does not change — keep it stored separately.</string>
+    <string name="sec_credentials_dialog_desc_login">The nickname the other person will see at the next key exchange. Cryptographic identity does not change.</string>
+    <string name="sec_credentials_password_warning">Remember the password. Without it and without the mnemonic, access on this device will be lost.</string>
+    <string name="sec_credentials_saved">Login and password saved. Biometrics and duress password are now available.</string>
+    <string name="sec_credentials_login_saved">Login saved.</string>
+    <string name="sec_state_on">On</string>
+    <string name="sec_state_off">Off</string>
+    <string name="sec_biometric_title">Biometric unlock</string>
+    <string name="sec_biometric_desc">Unlock with fingerprint/face without typing a password. The wrapping key is stored in hardware Keystore/StrongBox and opens only with strong biometrics, not the phone PIN. If a new fingerprint is added in the system, this sign-in turns off and has to be enabled again.</string>
+    <string name="sec_biometric_on_msg">Biometric unlock enabled.</string>
+    <string name="sec_biometric_on_fail">Could not enable biometrics.</string>
+    <string name="sec_biometric_off_msg">Biometric unlock disabled.</string>
+    <string name="sec_biometric_no_password">Unavailable for an auto account without a password.</string>
+    <string name="sec_biometric_no_strong">No strong biometrics are configured on this device.</string>
+    <string name="sec_biometric_prompt_title">Enable biometric unlock</string>
+    <string name="sec_biometric_prompt_subtitle">Confirm to bind unlocking to your biometrics</string>
+    <string name="sec_autolock_title">Auto-lock</string>
+    <string name="sec_autolock_desc">After how many minutes of inactivity (no touches) OR time in the background the app locks automatically: the secret is wiped from memory and a new sign-in is required. Data is not deleted.</string>
+    <string name="sec_autolock_off_note">Auto-lock is off — the app locks only manually or via the duress password.</string>
+    <string name="sec_autolock_off">Off</string>
+    <string name="sec_autolock_minutes">%1$d min</string>
+    <string name="sec_duress_title">Duress password</string>
+    <string name="sec_duress_desc">A second sign-in password: entering it INSTANTLY destroys the keys (crypto-shredding) instead of unlocking, and the app looks freshly installed. Configurable only for a password-protected account.</string>
+    <string name="sec_duress_change">Change</string>
+    <string name="sec_duress_set">Set</string>
+    <string name="sec_duress_disable">Disable</string>
+    <string name="sec_duress_disabled_msg">Duress password disabled.</string>
+    <string name="sec_wipe_failed_title">Wipe after 10 wrong passwords</string>
+    <string name="sec_wipe_failed_sub">After the fifth wrong attempt in a row, sign-in slows down: from 30 seconds up to an hour. With this setting, the tenth failure in a row destroys the data, like the duress password.</string>
+    <string name="sec_no_password_warning">An account without a password is protected only by the phone’s screen lock: anyone who knows the phone PIN can open your conversations. Set a password — then the conversation database and PSK keys on this device open only after it is entered.</string>
+    <string name="sec_duress_saved_msg">Duress password saved.</string>
+    <string name="sec_duress_save_fail">Failed: at least 8 characters and it must differ from the main one.</string>
+    <string name="sec_duress_dialog_title">Duress password</string>
+    <string name="sec_duress_dialog_desc">Enter a password that will trigger a silent wipe instead of signing in. It must differ from your main password.</string>
+    <string name="sec_duress_field">Duress password</string>
+    <string name="sec_repeat">Repeat</string>
+    <string name="sec_wipe_title">Emergency wipe</string>
+    <string name="sec_wipe_desc">Stage 1 — crypto-shredding (instant, irreversible). Stage 2 — best-effort overwrite of free space (≤90%%). On flash storage physical erasure is NOT guaranteed — the main guarantee is stage 1.</string>
+    <string name="sec_wipe_dialog_title">Emergency wipe?</string>
+    <string name="sec_wipe_dialog_desc">All keys, the account, PSKs and the encrypted database will be destroyed. This is irreversible: without a saved phrase, recovery is impossible.</string>
+    <string name="sec_wipe_best_effort">Also overwrite free space (stage 2, slower; no guarantees on flash storage)</string>
+    <string name="sec_wipe_confirm">Wipe</string>
+    <string name="common_save">Save</string>
+
+    <!-- Settings: Notifications (§14.5) -->
+    <string name="notif_section_title">Notifications</string>
+    <string name="notif_section_desc">No push or FCM: incoming messages arrive via long-poll — over Tor or, without Tor, over HTTPS — and the notification is composed on the device. The server and Google do not know about it (§7.6).</string>
+    <string name="notif_system_blocked">The system has blocked notifications for AEGIS.</string>
+    <string name="notif_system_allow">Allow</string>
+    <string name="notif_toggle_main_title">Notifications</string>
+    <string name="notif_toggle_main_sub">Master switch: show notifications about new messages and incoming calls.</string>
+    <string name="notif_toggle_sender_title">Show sender</string>
+    <string name="notif_toggle_sender_sub">Reveal the contact name in the preview. Hidden by default for lock-screen privacy (§14.3).</string>
+    <string name="notif_toggle_content_title">Show text</string>
+    <string name="notif_toggle_content_sub">Reveal the message content in the preview. Hidden by default — “New message” is shown.</string>
+    <string name="notif_toggle_msg_sound_title">Message sound</string>
+    <string name="notif_toggle_msg_sound_sub">Play a sound for a new message.</string>
+    <string name="notif_toggle_msg_vibrate_title">Message vibration</string>
+    <string name="notif_toggle_msg_vibrate_sub">Vibrate for a new message.</string>
+    <string name="notif_toggle_call_sound_title">Call sound</string>
+    <string name="notif_toggle_call_sound_sub">Play a ringtone for an incoming call.</string>
+    <string name="notif_toggle_call_synth_title">Built-in AEGIS ringtone</string>
+    <string name="notif_toggle_call_synth_sub">Synthesized ringtone in the app style instead of the system one. A contact\'s personal ringtone always takes priority.</string>
+    <string name="notif_toggle_call_vibrate_title">Call vibration</string>
+    <string name="notif_toggle_call_vibrate_sub">Vibrate for an incoming call.</string>
+    <string name="notif_toggle_call_tones_title">Ringback and call tones</string>
+    <string name="notif_toggle_call_tones_sub">Ringback for outgoing calls plus negotiation, connect, link-loss and hang-up cues. Played on the voice-call route (earpiece) at call volume.</string>
+    <string name="notif_toggle_inapp_title">In-app</string>
+    <string name="notif_toggle_inapp_sub">Show notifications while the app is open (but the chat is not on screen). Turn off to avoid distractions.</string>
+    <string name="notif_snooze_title">Pause all</string>
+    <string name="notif_snooze_1h">1 hour</string>
+    <string name="notif_snooze_8h">8 hours</string>
+    <string name="notif_snooze_forever">Forever</string>
+    <string name="notif_snooze_resume">Resume</string>
+    <string name="notif_snooze_status_forever">All notifications are off (forever).</string>
+    <string name="notif_snooze_status_until">Paused until %1$s.</string>
+    <string name="notif_snooze_status_active">Notifications are active.</string>
+    <string name="notif_snooze_date_format">MMM d, HH:mm</string>
+
+    <!-- Settings: Chats and messages (§14.4/§7.3) -->
+    <string name="msg_section_title">Chats and messages</string>
+    <string name="msg_retention_title">Message retention</string>
+    <string name="msg_retention_desc">Messages older than the chosen period are deleted automatically — both locally and on the server. The %1$d-day cap is hard: it cannot be raised or turned off (§7.3). You can choose a shorter period.</string>
+    <string name="msg_retention_current">Now: %1$s.</string>
+    <string name="msg_retention_current_max">Now: %1$s. This is the maximum allowed period.</string>
+    <string name="msg_autodownload_title">Auto-download attachments</string>
+    <string name="msg_autodownload_desc">Automatically download incoming photos/videos no larger than %1$d MB. Over Tor this is slow; when off, attachments download only on tap (§14.4). Files are always downloaded manually.</string>
+    <plurals name="days_count">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+
+    <!-- Settings: Privacy (§14.2) -->
+    <string name="privacy_section_title">Privacy</string>
+    <string name="privacy_read_receipts_title">Read receipts</string>
+    <string name="privacy_read_receipts_sub">Show your contact a double check mark when you read their message. Reciprocal: turning it off hides others’ marks from you too.</string>
+    <string name="privacy_typing_title">“Typing…” indicator</string>
+    <string name="privacy_typing_sub">Show your contact that you are typing a message.</string>
+    <string name="privacy_online_title">Online status</string>
+    <string name="privacy_online_sub">Reveal “online” / “last seen” to a contact who has the chat with you open.</string>
+    <string name="privacy_blocklist_title">Block list</string>
+    <string name="privacy_blocklist_sub">Blocked contacts: incoming messages are dropped, outgoing ones are not sent (invisibly to the contact).</string>
+    <string name="privacy_blocklist_open_cd">Open block list</string>
+
+    <!-- Settings: Calls (§14.9) -->
+    <string name="call_settings_title">Calls</string>
+    <string name="call_settings_enable_title">Allow calls</string>
+    <string name="call_settings_enable_sub">E2EE over WebRTC (DTLS-SRTP); keys via a Signal session, hardened with a manual PSK (§7.5).</string>
+    <string name="call_settings_route_tor">Call media goes over Tor: your IP is hidden from both the server and the peer.</string>
+    <string name="call_settings_route_direct">Tor is off: call media goes direct and the peer sees your IP. Encryption is the same.</string>
+    <string name="call_settings_no_webrtc">Warning: native WebRTC is not built in this build — signaling and call-key agreement work, but there is no real media stream.</string>
+    <string name="call_settings_meta_note">Call metadata is minimized (§10.10); signaling takes the same path as messages.</string>
+
+    <!-- Background delivery: system grants that code cannot obtain -->
+    <string name="bg_delivery_title">Background delivery</string>
+    <string name="bg_delivery_intro">AEGIS uses no push services: messages and calls arrive over a persistent connection to the relay (over Tor or direct). The system has to allow the app to work that way — otherwise some calls and messages will not arrive.</string>
+    <string name="bg_delivery_fsi_off">Full-screen incoming call is blocked by the system</string>
+    <string name="bg_delivery_fsi_explain">While it is blocked, a call rings and vibrates but no window with an Answer button appears — the only way to answer is from the notification shade.</string>
+    <string name="bg_delivery_fsi_action">Allow full-screen calls</string>
+    <string name="bg_delivery_battery_off">Background work is limited by battery optimization</string>
+    <string name="bg_delivery_battery_explain">The system freezes the app once it is minimized: an incoming call will not ring or vibrate until you open AEGIS yourself, and messages arrive late. Tap the button below and choose “Allow” in the system dialog.</string>
+    <string name="bg_delivery_battery_action">Allow background work</string>
+    <string name="bg_delivery_restricted_off">Background work is blocked: battery mode “Restricted”</string>
+    <string name="bg_delivery_restricted_explain">In this mode the system stops delivery as soon as the app leaves the screen — calls and messages do not arrive at all. On the app screen that opens, go to “Battery” and choose “Unrestricted”.</string>
+
+    <!-- Delivery setup wizard: background work -->
+    <string name="bg_prompt_title">Calls will not ring while the app is minimized</string>
+    <string name="bg_prompt_message">AEGIS uses no push services: calls and messages arrive over a persistent connection to the relay. Right now the system limits the app in the background and freezes it soon after you minimize it — an incoming call will not ring or vibrate until you open AEGIS yourself.\n\nAllow AEGIS to run in the background without restrictions: tap “Allow” in the system dialog (or choose “Battery → Unrestricted” on the app screen). You can also do it later under “Settings → Background delivery”.</string>
+    <string name="bg_prompt_allow">Allow</string>
+
+    <!-- Delivery setup wizard: full-screen calls (Android 14+) -->
+    <string name="fsi_prompt_title">Calls will not be shown full screen</string>
+    <string name="fsi_prompt_message">Since Android 14 the system only lets apps you approved yourself raise a full-screen incoming call. Without that permission a call will ring and vibrate, but no window with an Answer button will appear — you will have to answer from the notification shade.\n\nOpen settings and allow AEGIS full-screen notifications. You can also do it later under “Settings → Background delivery”.</string>
+    <string name="fsi_prompt_open">Open settings</string>
+
+    <!-- Delivery setup wizard: after install and after every update -->
+    <string name="setup_later">Later</string>
+    <string name="setup_notif_title">Notifications are off</string>
+    <string name="setup_notif_message">Without notifications you will not learn about an incoming call while the app is minimized: it will not show up on the lock screen or in the shade, and messages will arrive unnoticed. Allow AEGIS notifications — names and text stay hidden on the lock screen.\n\nYou can also do it later under “Settings → Notifications”.</string>
+    <string name="setup_notif_open">Open settings</string>
+    <string name="setup_locked_title">Calls while the account is locked</string>
+    <string name="setup_locked_message">The account locks itself after inactivity, when you lock it, and after the phone or the app restarts. While it is locked, delivery is currently stopped: calls and messages do not arrive until you sign in again.\n\nTurn on delivery while locked — then a call rings during that time too, only without the caller’s name, and you can answer right after signing in. Your chats stay locked: incoming messages wait in the queue encrypted until you sign in, and the database key is not in memory. You can change this under “Settings → Security”.</string>
+    <string name="setup_locked_enable">Turn on</string>
+
+    <!-- Delivery while the account is locked (§8 deliverWhileLocked) -->
+    <string name="sec_deliver_locked_title">Receive while the account is locked</string>
+    <string name="sec_deliver_locked_sub">Messages and calls keep arriving while the account is locked and are decrypted after you sign in</string>
+    <string name="sec_deliver_locked_off_note">Off: while the account is locked, delivery stops — messages and calls do not arrive until you sign in again.</string>
+    <string name="sec_deliver_locked_on_note">On: the relay connection stays up, and incoming items are queued encrypted and decrypted after you sign in — the database key is not kept in memory. Notifications show neither sender nor text. To answer a call, tap “Answer” and sign in — the call is picked up automatically. If the caller hangs up first, the phone may keep ringing for up to 75 seconds.</string>
+
+    <!-- Settings: Appearance (§14.6) -->
+    <string name="appearance_section_title">Appearance</string>
+    <string name="appearance_theme_title">Theme</string>
+    <string name="appearance_theme_dark">Dark</string>
+    <string name="appearance_theme_light">Light</string>
+    <string name="appearance_theme_system">System</string>
+    <string name="appearance_theme_desc">The base is dark (§13). “System” follows the device night mode.</string>
+    <string name="appearance_language_title">App language</string>
+    <string name="appearance_lang_system">System</string>
+    <string name="appearance_lang_russian">Русский</string>
+    <string name="appearance_lang_english">English</string>
+    <string name="appearance_language_desc">Changing the language will restart the screen.</string>
+    <string name="appearance_wallpaper_title">Chat wallpaper</string>
+    <string name="appearance_wallpaper_none">No wallpaper</string>
+    <string name="appearance_wallpaper_teal">Teal</string>
+    <string name="appearance_wallpaper_graphite">Graphite</string>
+    <string name="appearance_wallpaper_midnight">Midnight</string>
+    <string name="appearance_icon_title">App icon</string>
+    <string name="appearance_icon_default">Standard</string>
+    <string name="appearance_icon_minimal">Minimal</string>
+    <string name="appearance_icon_brand_title">Brand</string>
+    <string name="appearance_icon_disguise_title">Disguise</string>
+    <string name="appearance_icon_desc">A disguise changes the launcher shortcut and name to a generic utility (§14.1). Notifications also hide the AEGIS name. The system will refresh the shortcut for a moment — that is normal. If the icon does not change, wait a few seconds or restart the launcher.</string>
+    <string name="appearance_icon_applied">Shortcut updated. If the home screen still shows the old icon, wait a moment or restart the launcher.</string>
+    <string name="appearance_icon_apply_failed">Could not change the icon. Reinstall the app and try again.</string>
+    <string name="notif_disguise_service_title">Sync</string>
+    <string name="notif_disguise_service_text">Updating data</string>
+    <string name="notif_disguise_call_media_title">Call</string>
+    <string name="notif_disguise_call_media_text">Call in progress</string>
+    <string name="notif_disguise_channel_service_name">Sync</string>
+    <string name="notif_disguise_channel_service_desc">Background data update</string>
+    <string name="notif_disguise_channel_messages_name">Alerts</string>
+    <string name="notif_disguise_channel_calls_name">Calls</string>
+
+    <!-- Common -->
+    <string name="common_done">Done</string>
+    <string name="common_choose">Choose</string>
+    <string name="common_reset">Reset</string>
+
+    <!-- Chat screen (§13/§14) -->
+    <string name="chat_subtitle_e2ee">End-to-end encryption is active</string>
+    <string name="chat_subtitle_exchange">Exchange keys in person (§6.2)</string>
+    <string name="chat_verified_cd">Contact verified</string>
+    <string name="chat_verify_cd">Verify contact fingerprint</string>
+    <string name="chat_more_cd">More</string>
+    <string name="chat_menu_rename">Rename</string>
+    <string name="chat_rename_title">Rename chat</string>
+    <string name="chat_rename_label">Chat name</string>
+    <string name="chat_rename_hint">Leave empty to restore the original name: %1$s</string>
+    <string name="chat_rename_hint_id">Leave empty to restore the contact identifier.</string>
+    <string name="chat_menu_notifications">Notifications</string>
+    <string name="chat_menu_block">Block</string>
+    <string name="chat_menu_unblock">Unblock</string>
+    <string name="chat_menu_clear">Clear chat</string>
+    <string name="chat_menu_delete">Delete chat</string>
+    <string name="chat_clear_title">Clear chat?</string>
+    <string name="chat_clear_body">All messages in this chat will be deleted on this device only. The contact and keys are kept.</string>
+    <string name="chat_clear_confirm">Clear</string>
+    <string name="chat_delete_chat_title">Delete chat?</string>
+    <string name="chat_delete_chat_body">The chat, all messages and the exchange key (PSK) will be removed from this device. Your contact is not affected. You will need a new key exchange to chat again.</string>
+    <string name="chat_delete_chat_confirm">Delete</string>
+    <string name="chat_empty">No messages yet. The first message will establish a secure session.</string>
+    <string name="chat_delete_title">Delete message</string>
+    <string name="chat_delete_body">“Delete for everyone” (§7.3) asks your contact to delete this message on their side (best-effort, via a secure channel). “Delete for me” affects only this device.</string>
+    <string name="chat_delete_for_everyone">Delete for everyone</string>
+    <string name="chat_delete_for_me">Delete for me</string>
+    <string name="chat_msg_info_title">Message information</string>
+    <string name="chat_msg_info_verified">This message was encrypted with the following layers — recorded after a real encrypt/decrypt, not a static claim:</string>
+    <string name="chat_msg_info_unknown">No encryption record for this message: it was stored before this feature existed, or it has not gone through the pipeline yet. New messages show the algorithms that were actually applied.</string>
+    <string name="chat_msg_info_layer_a_on">Layer A (PSK cascade) — applied</string>
+    <string name="chat_msg_info_layer_a_off">Layer A not applied (no PSK) — layer B only</string>
+    <string name="chat_msg_info_layer_a_kdf">Cascade keys: HKDF-SHA512 (domain separation)</string>
+    <string name="chat_msg_info_layer_b">Layer B: %1$s</string>
+    <string name="chat_msg_info_layer_b_type">Signal envelope: %1$s</string>
+    <string name="chat_msg_info_transport">Transport: %1$s</string>
+    <string name="chat_msg_info_attachment">Attachment: separate AEAD cascade on a random 256-bit key</string>
+    <string name="chat_msg_info_storage">Stored on device in SQLCipher (AES-256), never as plaintext files</string>
+    <string name="chat_blocked_bar">Contact blocked (§14.2)</string>
+    <string name="chat_unverified_banner">The contact’s fingerprint is not verified. Tap to compare the safety number (§14.3).</string>
+    <string name="chat_new_device_banner">The contact has a new device. Tap to compare the fingerprint (§8).</string>
+    <string name="chat_keys_pending_banner">Layer B keys not received yet — messages will not be sent. The exchange completes on its own once both sides are online (§6.2).</string>
+    <string name="chat_keys_pending_retry">Retry</string>
+    <string name="chat_download_cd">Download attachment</string>
+    <string name="chat_download_retry_cd">Retry download</string>
+    <string name="chat_video_play_cd">Video</string>
+    <string name="chat_attach_cd">Attachment</string>
+    <string name="chat_attach_camera">Camera</string>
+    <string name="chat_attach_photo_video">Photo or video</string>
+    <string name="chat_attach_file">File</string>
+    <string name="chat_attach_retry">Retry</string>
+    <string name="chat_input_placeholder">Message</string>
+    <string name="chat_send_cd">Send</string>
+    <string name="chat_size_bytes">%1$d B</string>
+    <string name="chat_size_kb">%1$d KB</string>
+    <string name="chat_size_mb">%1$.1f MB</string>
+    <string name="chat_status_pending">encrypting…</string>
+    <string name="chat_status_sent">encrypted ✓</string>
+    <string name="chat_status_read">read ✓✓</string>
+    <!-- Neutral on purpose: FAILED also covers transport failures, not just crypto. -->
+    <string name="chat_status_failed">not sent</string>
+    <string name="chat_attach_too_large">File is too large (max %1$d MB)</string>
+    <string name="chat_attach_unreadable">Could not read the file</string>
+    <string name="chat_item_verified_cd">Fingerprint verified</string>
+    <string name="chat_item_e2e_cd">E2E active</string>
+
+    <!-- Voice messages (§14.4) -->
+    <string name="chat_voice_record_cd">Record a voice message</string>
+    <string name="chat_voice_play_cd">Play</string>
+    <string name="chat_voice_pause_cd">Pause</string>
+    <string name="chat_voice_download_cd">Download voice message</string>
+    <string name="chat_voice_cancel_cd">Cancel recording</string>
+    <string name="chat_voice_play_failed">Playback failed</string>
+    <string name="chat_voice_rec">REC</string>
+    <string name="chat_voice_remaining">%1$s left</string>
+    <string name="chat_voice_hint_hold">Hold the button · swipe up to lock</string>
+    <string name="chat_voice_hint_locked">Recording locked · send or cancel</string>
+    <string name="chat_voice_hint_release_to_cancel">Release to cancel</string>
+    <string name="chat_voice_slide_cancel">◀ Slide left to cancel</string>
+    <string name="chat_voice_slide_cancel_armed">Release to discard the recording</string>
+    <string name="chat_voice_too_short">Too short: hold the microphone button</string>
+    <string name="chat_voice_mic_failed">Microphone unavailable: check the permission and whether another app is using it</string>
+
+    <!-- Contact notification dialog (§14.5) -->
+    <string name="contact_notif_title">Notifications · %1$s</string>
+    <string name="contact_notif_mute_title">Mute</string>
+    <string name="contact_notif_enable">Unmute</string>
+    <string name="contact_notif_sounds_title">Custom sounds</string>
+    <string name="contact_notif_msg_sound">Message sound</string>
+    <string name="contact_notif_call_ringtone">Call ringtone</string>
+    <string name="contact_notif_sound_default">Default</string>
+    <string name="contact_notif_sound_custom">Custom selected</string>
+    <string name="contact_mute_status_forever">Contact muted forever.</string>
+    <string name="contact_mute_status_until">Muted until %1$s.</string>
+    <string name="contact_mute_status_active">Notifications from this contact are on.</string>
+
+    <!-- Peer ephemeral status (§14.2) -->
+    <string name="presence_typing">typing…</string>
+    <string name="presence_online">online</string>
+    <string name="presence_last_seen">last seen %1$s</string>
+    <string name="presence_just_now">just now</string>
+    <string name="presence_min_ago">%1$d min ago</string>
+    <string name="presence_hour_ago">%1$d h ago</string>
+    <string name="presence_day_ago">%1$d d ago</string>
+
+    <!-- Account transfer (§7.1.2) -->
+    <string name="transfer_export_title">Account transfer</string>
+    <string name="transfer_export_desc">Build a password-encrypted package and hand it to the new device via QR code or file. Neither the package nor the password ever go over the network (§7.1.2).</string>
+    <string name="transfer_export_multidevice_notice">Multi-device is disabled for this account (§7.1.1). A transfer usually means switching devices. If you want to use two devices at once, enable multi-device in your profile.</string>
+    <string name="transfer_section_what">What to transfer</string>
+    <string name="transfer_item_account_title">Account (identity)</string>
+    <string name="transfer_item_account_sub">Mnemonic and login — required to sign in on the new device</string>
+    <string name="transfer_item_contacts_title">Contacts</string>
+    <string name="transfer_item_contacts_sub">Nicknames, fingerprints, session parameters</string>
+    <string name="transfer_item_conversations_title">Conversations</string>
+    <string name="transfer_item_conversations_sub">Messages and Signal state (ratchets)</string>
+    <string name="transfer_item_attachments_title">Message attachments</string>
+    <string name="transfer_item_attachments_sub">Significantly increases size (file only, not QR)</string>
+    <string name="transfer_item_psk_title">Container keys (PSK)</string>
+    <string name="transfer_item_psk_sub">Without them chats with contacts are unavailable</string>
+    <string name="transfer_item_settings_title">Settings</string>
+    <string name="transfer_item_settings_sub">Security, network/Tor, privacy, notifications</string>
+    <string name="transfer_section_password">Package password</string>
+    <string name="transfer_password_label">Transfer password</string>
+    <string name="transfer_build">Build package</string>
+    <string name="transfer_built_title">Package built</string>
+    <string name="transfer_summary_account">Account</string>
+    <string name="transfer_summary_contacts">Contacts</string>
+    <string name="transfer_summary_messages">Messages</string>
+    <string name="transfer_summary_psk">PSK keys</string>
+    <string name="transfer_summary_settings">Settings</string>
+    <string name="transfer_summary_login">Login</string>
+    <string name="transfer_value_included">included</string>
+    <string name="transfer_value_none">none</string>
+    <string name="transfer_value_settings_included">included</string>
+    <string name="transfer_summary_line">%1$s: %2$s</string>
+    <string name="transfer_qr_hint">Scan this QR on the new device. The screen is protected from screenshots (§14.3) — show it in person only.</string>
+    <string name="transfer_too_big">The package is too large for a QR code (%1$d KB). Save it to a file and move it to the new device (e.g. via offline media).</string>
+    <string name="transfer_save_file">Save to file</string>
+    <string name="transfer_import_title">Transfer from another device</string>
+    <string name="transfer_import_desc">Receive the transfer package created on the old device and enter the password you set there. The package is transferred offline (§7.1.2).</string>
+    <string name="transfer_import_no_account_notice">The package has no account identity — it cannot be applied to a clean device. Build a package with the “Account” item enabled.</string>
+    <string name="transfer_apply">Apply transfer</string>
+    <string name="transfer_import_received">Package received. Enter the transfer password.</string>
+    <string name="transfer_open">Unseal package</string>
+    <string name="transfer_choose_other">Choose another package</string>
+    <string name="transfer_scan_qr">Scan QR code</string>
+    <string name="transfer_open_file">Open package file</string>
+    <string name="transfer_summary_title">Package contents</string>
+    <string name="transfer_file_read_fail">Could not read the file.</string>
+    <string name="transfer_wrong_password">Wrong package password.</string>
+    <!-- Transfer errors (AccountTransfer, shown in UI) -->
+    <string name="transfer_err_crypto_unavailable">Crypto core is unavailable in this build.</string>
+    <string name="transfer_err_password_too_short">Transfer password must be at least %1$d characters.</string>
+    <string name="transfer_err_account_not_found">Account not found.</string>
+    <string name="transfer_err_account_locked">Account is locked — sign in first.</string>
+    <string name="transfer_err_build_generic">Could not build the transfer package</string>
+    <string name="transfer_err_not_aegis">This is not an AEGIS transfer package.</string>
+    <string name="transfer_err_unknown_format">Unknown format (an AEGIS package was expected).</string>
+    <string name="transfer_err_open_generic">Could not unseal the package</string>
+    <string name="transfer_err_corrupt">The package is corrupted.</string>
+    <string name="transfer_err_already_account">This device already has an account. Delete it first (§7.4).</string>
+    <string name="transfer_err_no_identity">The package has no account identity — transfer to a clean device is not possible.</string>
+    <string name="transfer_err_bad_mnemonic">Invalid mnemonic in the transfer package.</string>
+    <string name="transfer_err_derive_identity">Could not derive identity from the mnemonic.</string>
+    <string name="transfer_err_apply_generic">Could not unpack the transfer data</string>
+    <string name="transfer_err_no_account_for_merge">There is no account on this device yet — use import onto a clean device.</string>
+
+    <!-- Merge transfer into an existing account (§7.1.2, follow-up) -->
+    <string name="transfer_merge_import_title">Import into this device</string>
+    <string name="transfer_merge_import_desc">Add contacts, conversations and keys (PSK) from a transfer package into the account that ALREADY exists on this device. Merge only adds new items: local data is never overwritten. Identity and Signal state are not transferred.</string>
+    <string name="profile_merge_import">Import into this device</string>
+    <string name="transfer_merge_apply">Merge into this account</string>
+    <string name="transfer_merge_report_title">What will be added</string>
+    <string name="transfer_merge_identity_match">The package belongs to this same account.</string>
+    <string name="transfer_merge_identity_other">Warning: the package is from a DIFFERENT account. Identity and Signal state are not transferred; chats must be re-established (PSK and a session are required).</string>
+    <string name="transfer_merge_contacts">Contacts: +%1$d (already present: %2$d)</string>
+    <string name="transfer_merge_messages">Messages: +%1$d (already present: %2$d)</string>
+    <string name="transfer_merge_messages_orphaned">Messages skipped (no matching contact): %1$d</string>
+    <string name="transfer_merge_psks">PSK keys: +%1$d (conflicts, local kept: %2$d)</string>
+    <string name="transfer_merge_settings_checkbox">Apply settings from the package (overwrites local)</string>
+    <string name="transfer_merge_nothing">Nothing new to add — everything is already present locally.</string>
+    <string name="transfer_merge_done">Merge complete: +%1$d contacts, +%2$d messages, +%3$d PSK.</string>
+
+    <!-- Multi-device: device linking (§7.1.1, docs/multidevice.md §5) -->
+    <string name="link_export_title">Link a device</string>
+    <string name="link_export_desc">Create a password-encrypted package to link a NEW device to this account. It contains the mnemonic, contacts\' public data and Layer A keys, but NOT the Signal state — the new device sets up its own sessions. Transfer the package strictly offline (in person, QR/file).</string>
+    <string name="link_export_disabled_notice">Multi-device is disabled for this account. Enable it in the profile to link devices.</string>
+    <string name="link_label_field">New device name (e.g. \"Tablet\")</string>
+    <string name="link_password_label">Linking password</string>
+    <string name="link_build">Create linking package</string>
+    <string name="link_built_title">Package ready</string>
+    <string name="link_built_hint">Scan the QR on the new device in the \"Accept device\" screen, or transfer the file. Share the password over a separate channel.</string>
+    <string name="link_qr_hint">Show the QR in person. The screen is protected from screenshots.</string>
+    <string name="link_summary_device_id">Device ID</string>
+    <string name="link_summary_label">Device name</string>
+    <string name="link_accept_title">Accept device</string>
+    <string name="link_accept_desc">Accept the linking package from the primary device (QR/file) and enter the linking password. This device becomes part of the account; message history syncs via self-sync.</string>
+    <string name="link_accept_apply">Link this device</string>
+    <string name="link_accept_summary_title">Linking data</string>
+    <string name="link_err_multidevice_disabled">Multi-device is disabled for this account (§7.1.1). Enable it in the profile.</string>
+    <string name="link_err_no_device_ids">Device id limit reached (255). Revoke unused devices.</string>
+    <string name="link_err_bad_device_id">The linking package contains an invalid device id.</string>
+    <string name="onboarding_link_device">Accept device (multi-device)</string>
+    <string name="profile_link_device">Link a device</string>
+    <string name="profile_my_devices">My devices</string>
+
+    <!-- My devices (§7.1.1, docs/multidevice.md §5/§10) -->
+    <string name="devices_title">My devices</string>
+    <string name="devices_desc">Devices on this account. Rename them for convenience or revoke a linked device to stop delivery to it.</string>
+    <string name="devices_disabled_notice">Multi-device is disabled for this account. While it is off, a second device will not work; revoking is still available.</string>
+    <string name="devices_no_linked">No linked devices. Link a device from your profile to use the account on more than one device.</string>
+    <string name="devices_unnamed">Unnamed</string>
+    <string name="devices_id_this">ID %1$d · this device</string>
+    <string name="devices_id_linked">ID %1$d · linked</string>
+    <string name="devices_id_revoked">ID %1$d · revoked</string>
+    <string name="devices_rename">Rename</string>
+    <string name="devices_rename_label">Device name</string>
+    <string name="devices_revoke">Revoke</string>
+    <string name="devices_revoke_confirm_title">Revoke device?</string>
+    <string name="devices_revoke_confirm_text">The device will stop receiving new messages and sync; contacts will drop it from delivery. Messages it already received stay on it (§10). This action cannot be undone.</string>
+
+    <!-- Contact verification (§14.3) -->
+    <string name="verify_title">Verification: %1$s</string>
+    <string name="verify_code_label">Safety verification code</string>
+    <string name="verify_instructions">Compare this code with your contact in person or over a trusted channel (e.g. during a call with an already-verified SAS). If the codes match, mark the contact as verified. A match rules out key substitution by an untrusted server (§6.2/§10.7): the code cannot be reproduced without your manual PSK.</string>
+    <string name="verify_unmark">Remove “verified” mark</string>
+    <string name="verify_mark">Codes match — mark as verified</string>
+    <string name="verify_status_verified">Contact verified</string>
+    <string name="verify_status_unverified">Contact not verified</string>
+    <string name="verify_status_verified_desc">The fingerprint was verified offline. The “verified” indicator is shown in the chat.</string>
+    <string name="verify_status_unverified_desc">It is recommended to verify the fingerprint before exchanging sensitive messages (§14.3).</string>
+    <string name="verify_err_layer_b">Layer B (Signal) is unavailable in this build — the verification code cannot be computed.</string>
+    <string name="verify_err_no_remote_key">No public key for the contact. Exchange keys in person (§6.2).</string>
+    <string name="verify_err_no_psk">No PSK is set for this contact. Exchange a key in person first (§6.2).</string>
+    <string name="verify_err_compute">Could not compute the verification code.</string>
+    <string name="verify_devices_section">Contact’s additional devices</string>
+    <string name="verify_devices_desc">This contact has multiple devices (multi-device). Each has its own fingerprint — verify each code separately.</string>
+    <string name="verify_device_title">Device ID %1$d</string>
+
+    <!-- Block list (§14.2) -->
+    <string name="blocklist_title">Block list</string>
+    <string name="blocklist_empty">No contacts yet. Add a contact via manual key exchange (§6.2).</string>
+    <string name="blocklist_status_blocked">Blocked</string>
+    <string name="blocklist_status_active">Active</string>
+
+    <!-- Onboarding / profile (transfer) -->
+    <string name="onboarding_transfer_from_device">Transfer from another device</string>
+    <string name="profile_transfer_account">Transfer account</string>
+
+    <!-- Domain errors (shown in UI) -->
+    <string name="acct_err_bad_mnemonic">Invalid recovery phrase (check the words and their order).</string>
+    <string name="acct_err_no_unwrap_key">Could not obtain the unwrapping key.</string>
+    <string name="acct_err_unlock">Unlock error</string>
+    <string name="acct_err_biometric_not_set">Biometric sign-in is not set up.</string>
+    <string name="acct_err_biometric_unlock">Biometric unlock error</string>
+    <string name="acct_err_create">Could not create the account</string>
+    <string name="acct_err_replace_unlocked">The account is open: lock it before creating or restoring another one.</string>
+    <string name="psk_err_not_aegis">This is not an AEGIS exchange code.</string>
+    <string name="psk_err_unknown_format">Unknown code format (an AEGIS key was expected).</string>
+    <string name="psk_err_corrupt">Corrupted PSK in the code.</string>
+    <string name="psk_err_bad_phrase">Invalid phrase. Check the words and their order.</string>
+    <string name="psk_err_save">Could not save the PSK</string>
+    <string name="psk_err_show_first">Show your own QR first, then scan the contact’s code.</string>
+    <string name="psk_err_no_account">The contact’s code has no account id. Update AEGIS on their device and repeat the exchange.</string>
+    <string name="psk_err_generate">Could not prepare the key exchange.</string>
+    <string name="psk_mutual_hint">The exchange is mutual. Both keep THIS screen open: scan the contact’s QR and let them scan yours. Don’t leave the screen until both show a “✓”. Then compare the safety code in the chat — it must match on both phones.</string>
+    <string name="psk_mutual_wait_peer">Your side is ready. Do NOT leave this screen until the contact has scanned your QR, otherwise their exchange won’t complete.</string>
+    <string name="nfc_err_no_isodep">The device does not support ISO-DEP.</string>
+    <string name="nfc_err_not_showing">The other device is not showing an AEGIS key.</string>
+    <string name="nfc_err_read">NFC read error.</string>
+    <string name="nfc_err_payload_too_big">NFC payload too large.</string>
+    <string name="onion_err_empty">Enter the relay onion address</string>
+    <string name="onion_err_invalid">Invalid onion address. Need a v3 (56 characters).onion — a full URL is fine, the https:// scheme is stripped.</string>
+    <string name="onion_err_no_tor">Built-in Tor is unavailable in this build</string>
+    <string name="onion_err_not_running">Tor is not running or unavailable</string>
+    <string name="onion_err_bootstrapping">Tor is still connecting. Wait until the status is “connected” and try again.</string>
+    <string name="onion_ok">Success: the relay is reachable via Tor</string>
+    <string name="onion_err_unreachable">The relay is unreachable over Tor. Check that the server is running, the address is a .onion (not an https website), and the Tor indicator shows “connected”.</string>
+    <string name="onion_err_timeout">Timed out connecting to the relay over Tor</string>
+    <string name="onion_err_prefix">Error: %1$s</string>
+    <string name="onion_err_tor_off">The onion relay is tested over Tor, and Tor is off.</string>
+    <string name="https_err_tor_on">HTTPS testing is only available without Tor: with Tor on, a direct connection would reveal your IP.</string>
+    <string name="https_err_empty">Enter the relay HTTPS address</string>
+    <string name="https_err_invalid">Invalid address: https://domain[:port] without a path is required. http:// is not accepted.</string>
+    <string name="https_err_switching">The network mode is switching — try again in a couple of seconds.</string>
+    <string name="https_ok">Success: the AEGIS relay answers over HTTPS</string>
+    <string name="https_err_not_relay">Something other than an AEGIS relay answers at this address. Check the domain.</string>
+    <string name="https_err_status">The relay answered with HTTP error %1$d</string>
+    <string name="https_err_tls">TLS failed: the certificate did not verify (chain, server name or SPKI pin).</string>
+    <string name="https_err_dns">Server name not found (DNS).</string>
+    <string name="https_err_timeout">HTTPS connection to the relay timed out</string>
+    <string name="https_err_unreachable">The relay is unreachable over HTTPS. Check the network and the address.</string>
+    <string name="attachment_default_name">file</string>
+
+    <!-- Remote contact requests (RCH v1, docs/contact_requests.md) -->
+    <string name="notif_contact_request_title">Contact request: %1$s</string>
+    <string name="notif_contact_request_text">Someone wants to add you</string>
+
+    <string name="contact_add_title">Add contact</string>
+    <string name="contact_add_remote_title">By address or nickname</string>
+    <string name="contact_add_remote_hint">Paste an address (aegis:1:…) or type @nickname</string>
+    <string name="contact_add_greeting_hint">Who you are (optional, shown to them)</string>
+    <string name="contact_add_send">Send request</string>
+    <string name="contact_add_in_person">In-person exchange (QR/NFC)</string>
+    <string name="contact_add_in_person_note">The strictest option: the layer-A secret is carried physically, never over the network.</string>
+    <string name="contact_add_remote_note">Remote add: keys are checked against the address you were given. Not even a compromised server can substitute them — but nothing proves the address itself is authentic, so verify the fingerprint after activation.</string>
+    <string name="contact_add_my_address">My address</string>
+    <string name="contact_add_copy">Copy</string>
+    <string name="contact_add_copied">Address copied</string>
+    <string name="contact_add_rotate">Rotate address</string>
+    <string name="contact_add_rotate_note">Rotating invalidates every address you handed out before. Existing contacts are unaffected.</string>
+    <string name="contact_add_alias_title">Public nickname</string>
+    <string name="contact_add_alias_hint">nickname (a–z, 0–9, “_”, “.”)</string>
+    <string name="contact_add_alias_claim">Claim nickname</string>
+    <string name="contact_add_alias_release">Disable nickname</string>
+    <string name="contact_add_alias_current">Claimed: @%1$s</string>
+    <string name="contact_add_alias_warning">A public nickname is enumerable: anyone who guesses it learns your accountId and can send you a request. Keys, devices and messages stay private.</string>
+
+    <string name="contact_req_sent">Request sent: %1$s</string>
+    <string name="contact_req_err_bad_address">Address not recognised. Check that you copied all of it.</string>
+    <string name="contact_req_err_not_found">User not found. The address may be stale, or the owner has not been online for a long time.</string>
+    <string name="contact_req_err_unavailable">Remote add is unavailable: disabled in settings or not enabled on the relay.</string>
+    <string name="contact_req_err_untrusted">VERIFICATION FAILED (%1$s). The keys do not match the address — substitution is possible. Request NOT sent.</string>
+    <string name="contact_req_err_self">That is your own address.</string>
+    <string name="contact_req_err_already">This contact already exists.</string>
+    <string name="contact_req_err_pending">A request to this user is already pending.</string>
+    <string name="contact_req_err_failed">Failed: %1$s</string>
+
+    <string name="contact_req_title">Contact requests</string>
+    <string name="contact_req_empty">No requests</string>
+    <string name="contact_req_incoming">Incoming request</string>
+    <string name="contact_req_outgoing">Request sent</string>
+    <string name="contact_req_state_pending">Awaiting reply</string>
+    <string name="contact_req_state_declined">Declined</string>
+    <string name="contact_req_account">accountId: %1$s</string>
+    <string name="contact_req_fingerprint">Fingerprint: %1$s</string>
+    <string name="contact_req_verify_hint">Check the accountId and fingerprint over an independent channel before accepting: they are what makes you sure this is the right person.</string>
+    <string name="contact_req_accept">Accept</string>
+    <string name="contact_req_decline">Decline</string>
+    <string name="contact_req_cancel">Cancel request</string>
+    <string name="contact_req_accepted">Contact activated. Handshake code: %1$s</string>
+    <string name="contact_req_declined">Request declined</string>
+
+    <string name="trust_in_person">In-person exchange</string>
+    <string name="trust_remote_address">Added by address</string>
+    <string name="trust_unknown">Method unknown</string>
+    <string name="trust_verified_suffix">, fingerprint verified</string>
+
+    <!-- Contacts section: pane switcher, search, details (§14.1) -->
+    <string name="contacts_tab_list">Contacts</string>
+    <string name="contacts_tab_add">Add</string>
+    <string name="contacts_tab_requests">Requests</string>
+    <string name="contacts_tab_requests_badge">Requests · %1$d</string>
+
+    <string name="contacts_search_title">Contact search</string>
+    <string name="contacts_search_hint">Name, nickname, accountId or fingerprint</string>
+    <string name="contacts_search_clear">Clear search</string>
+    <string name="contacts_group_all">All contacts · %1$d</string>
+    <string name="contacts_group_found">Found · %1$d</string>
+    <string name="contacts_empty_title">No contacts yet</string>
+    <string name="contacts_not_found_title">Nothing found</string>
+    <string name="contacts_not_found_subtitle">No contact matches the query. Search covers the chat name, public nickname, accountId and fingerprint — you can paste them straight from the verification screen.</string>
+
+    <string name="contacts_details_title">Contact</string>
+    <string name="contacts_details_identity">Identity</string>
+    <string name="contacts_details_state">State</string>
+    <string name="contacts_details_actions">Actions</string>
+    <string name="contacts_details_nickname">Exchange nickname</string>
+    <string name="contacts_details_local_name">Name on this device</string>
+    <string name="contacts_details_account">accountId</string>
+    <string name="contacts_details_fingerprint">Key fingerprint</string>
+    <string name="contacts_details_fingerprint_absent">Not received yet</string>
+    <string name="contacts_details_trust">How it was added</string>
+    <string name="contacts_details_devices">Known devices: %1$d</string>
+    <string name="contacts_details_identity_note">These values are the peer\'s identity. Verify them over an independent channel: the chat name is local and proves nothing.</string>
+    <string name="contacts_details_e2ee_on">Layer-B keys received</string>
+    <string name="contacts_details_e2ee_off">Layer-B keys not received yet</string>
+    <string name="contacts_details_muted">Notifications muted</string>
+    <string name="contacts_details_unmuted">Notifications on</string>
+    <string name="contacts_details_open_chat">Open chat</string>
+    <string name="contacts_details_verify">Verify fingerprint</string>
+    <string name="contacts_details_delete">Delete contact</string>
+
+    <string name="contacts_delete_title">Delete contact?</string>
+    <string name="contacts_delete_body">Permanently deleted from this device: the conversation with %1$s, attachments, the exchange key (PSK), the peer\'s devices and their requests. The peer will not be notified and keeps everything on their side. Re-adding will require a fresh key exchange.</string>
+    <string name="contacts_delete_failed">Could not delete the contact: %1$s</string>
+
+    <string name="settings_contact_requests">Remote contact requests</string>
+    <string name="settings_contact_requests_off">Off (QR/NFC only)</string>
+    <string name="settings_contact_requests_address">By address</string>
+    <string name="settings_contact_requests_alias">By address and public nickname</string>
+    <string name="settings_contact_requests_desc">By address: the layer-A secret is never sent over the network — it is derived from a signed handshake, and the server cannot substitute keys. A public nickname additionally makes you findable by name, and enumerable.</string>
+    <string name="settings_contact_decline_notify">Notify on decline</string>
+    <string name="settings_contact_decline_notify_desc">The sender learns the request was declined and stops retrying. Turning it off is slightly stricter on metadata.</string>
+</resources>

@@ -1,0 +1,41 @@
+# --- Android / Gradle ---
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+**/build/
+/captures
+.externalNativeBuild
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# --- Секреты подписи (НИКОГДА не коммитить — см. §12.1) ---
+# Сюда же попадает необязательный общий debug-ключ app/signing/aegis-debug.jks:
+# его раздают своей команде отдельно, а не через публичный репозиторий.
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+
+# --- Rust ---
+# target/ игнорируем, но Cargo.lock КОММИТИМ (требование воспроизводимых сборок, §9).
+/rust/**/target/
+
+# Собранные нативные .so — артефакты cargo-ndk (генерируются задачей :crypto:cargoNdkBuild).
+/crypto/src/main/jniLibs/
+
+# --- Pluggable transports (§14.7) ---
+# PT-бинари (lyrebird/snowflake) — крупные артефакты кросс-компиляции,
+# генерируются `pt/build_pt.sh` (или задачей :app:buildPluggableTransports).
+/app/src/main/jniLibs/
+# Кэш сборки PT: клоны исходников PT + go module cache/gocache (сотни МБ).
+/pt/.build/
+
+# --- Прочее ---
+*.log
+local.env

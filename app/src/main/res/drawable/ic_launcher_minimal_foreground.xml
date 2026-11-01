@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Светлый щит на бирюзовом фоне — «минимал» вариант бренда. -->
+    <path
+        android:fillColor="#F5F7FA"
+        android:pathData="M54,30 L74,38 L74,56 C74,68.5 65,76.5 54,80.5 C43,76.5 34,68.5 34,56 L34,38 Z" />
+    <path
+        android:fillColor="#0F7A6E"
+        android:pathData="M54,47 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
+    <path
+        android:fillColor="#0F7A6E"
+        android:pathData="M51.5,50 L56.5,50 L58,64 L50,64 Z" />
+</vector>

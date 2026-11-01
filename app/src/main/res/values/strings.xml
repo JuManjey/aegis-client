@@ -1,0 +1,987 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AEGIS</string>
+    <!-- Ярлыки иконок-маскировок (§14.6/§14.1): на лаунчере приложение выглядит как утилита. -->
+    <string name="app_icon_calc_label">Калькулятор</string>
+    <string name="app_icon_notes_label">Заметки</string>
+    <string name="app_icon_weather_label">Погода</string>
+    <string name="app_icon_clock_label">Часы</string>
+    <string name="app_icon_compass_label">Компас</string>
+    <string name="app_icon_files_label">Файлы</string>
+    <string name="app_icon_calendar_label">Календарь</string>
+    <string name="app_icon_flashlight_label">Фонарик</string>
+    <string name="app_icon_music_label">Музыка</string>
+    <string name="app_icon_gallery_label">Галерея</string>
+    <string name="app_icon_recorder_label">Диктофон</string>
+
+    <!-- Нижняя навигация (§13) -->
+    <string name="nav_chats">Чаты</string>
+    <string name="nav_contacts">Контакты</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="nav_profile">Мой профиль</string>
+    <!-- Короткая подпись вкладки: полное «Мой профиль» не влезает под глиф (см. TopLevelDestination). -->
+    <string name="nav_profile_tab">Профиль</string>
+
+    <!-- Индикаторы безопасности -->
+    <string name="security_e2e">E2E</string>
+    <string name="tor_status_disabled">Tor выключен</string>
+    <string name="tor_status_starting">Tor: запуск…</string>
+    <string name="tor_status_bootstrapping">Tor: подключение %1$d%%</string>
+    <string name="tor_status_connected">Tor активен</string>
+    <string name="tor_status_unavailable">Tor не собран</string>
+    <string name="tor_status_error">Tor: ошибка</string>
+    <string name="net_status_direct">Без Tor / прямое соединение</string>
+    <string name="net_status_switching">Переключение сети…</string>
+
+    <!-- Экраны-заглушки -->
+    <string name="chats_empty_title">Пока нет чатов</string>
+    <string name="chats_empty_subtitle">Добавьте контакт по никнейму и проведите ручной обмен ключами, чтобы начать защищённую переписку.</string>
+    <!-- HUD-раскладка (docs/ui_hud.md): подписи хрома интерфейса -->
+    <string name="chats_group_chats">Чаты · %1$d</string>
+    <string name="chat_header_section">Сообщения</string>
+    <string name="contacts_title">Контакты</string>
+    <string name="contacts_placeholder">Список контактов появится здесь. Аккаунт без привязки к телефону — только никнейм и отпечаток ключа.</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_placeholder">Профили безопасности, приватность, сеть и Tor, хранилище. Активный профиль по умолчанию — «Параноик».</string>
+    <string name="profile_title">Мой профиль</string>
+    <string name="profile_placeholder">Никнейм, аватар, восстановление аккаунта (мнемоническая фраза), мультидевайс и перенос аккаунта.</string>
+
+    <!-- Диагностика крипто-ядра (ФАЗА 1) -->
+    <string name="crypto_native_ready">Нативное крипто-ядро: %1$s</string>
+    <string name="crypto_native_absent">Нативное крипто-ядро не собрано (каркас)</string>
+    <string name="unread_count">%1$d</string>
+
+    <!-- Онбординг / аккаунт (§7.1) -->
+    <string name="onboarding_welcome_title">Добро пожаловать в AEGIS</string>
+    <string name="onboarding_welcome_subtitle">Многослойное шифрование · Tor по умолчанию · Без привязки к телефону. Ваш аккаунт — это криптографическая пара ключей, а не номер и не e-mail.</string>
+    <string name="onboarding_create">Создать аккаунт</string>
+    <string name="onboarding_create_auto">Быстрое создание (без пароля)</string>
+    <string name="onboarding_restore">Восстановить по фразе</string>
+    <string name="onboarding_native_missing">Нативное крипто-ядро не собрано — создание аккаунта недоступно. Соберите Rust-модуль (см. README.md).</string>
+
+    <string name="account_login_label">Логин (никнейм)</string>
+    <string name="account_login_hint">Буквы и цифры, без телефона и почты</string>
+    <string name="account_password_label">Пароль входа</string>
+    <string name="account_password_confirm_label">Повторите пароль</string>
+    <string name="account_password_hint">Защищает мнемонику на этом устройстве (Argon2id)</string>
+    <string name="account_multidevice_label">Разрешить на нескольких устройствах</string>
+    <string name="account_multidevice_hint">По умолчанию запрещено — так безопаснее (§7.1.1)</string>
+    <string name="account_create_submit">Создать</string>
+    <string name="account_restore_submit">Восстановить</string>
+    <string name="account_password_mismatch">Пароли не совпадают</string>
+    <string name="account_password_too_short">Пароль слишком короткий (минимум 8 символов)</string>
+    <string name="account_login_empty">Укажите логин</string>
+    <string name="account_login_too_short">Логин слишком короткий (минимум 2 символа)</string>
+    <string name="account_login_too_long">Логин слишком длинный (максимум 32 символа)</string>
+    <string name="account_login_invalid">Логин: только буквы, цифры и подчёркивание, без пробелов</string>
+    <string name="account_login_looks_email">Логин не должен быть e-mail</string>
+    <string name="account_login_looks_phone">Логин не должен быть номером телефона</string>
+    <string name="account_login_optional_hint">Необязательно. Буквы и цифры, без телефона и почты. Можно задать позже в настройках</string>
+    <string name="acct_err_not_unlocked">Аккаунт должен быть разблокирован</string>
+    <string name="acct_err_already_has_password">Пароль входа уже задан</string>
+    <string name="acct_err_add_password">Не удалось сохранить логин и пароль. Повторите вход и попробуйте снова</string>
+
+    <string name="account_restore_title">Восстановление аккаунта</string>
+    <string name="account_restore_subtitle">Введите мнемоническую фразу (12–24 слова через пробел). Затем задайте новый пароль для этого устройства.</string>
+    <string name="account_restore_phrase_label">Мнемоническая фраза</string>
+    <string name="account_restore_invalid">Некорректная фраза. Проверьте слова и порядок.</string>
+
+    <!-- Замена аккаунта, хранящегося на устройстве (путь «Забыли пароль?», §7.1/§7.4) -->
+    <string name="onboarding_back_to_unlock">Назад ко входу</string>
+    <string name="account_create_replace_warning">На этом устройстве уже есть аккаунт. Новый создаётся только на чистом устройстве: переписка, контакты, ключи (PSK) и настройки текущего аккаунта будут безвозвратно удалены.</string>
+    <string name="account_no_password_warning">Без пароля аккаунт защищает только блокировка экрана телефона: любой, кто знает PIN телефона, откроет переписку. Пароль можно добавить позже в настройках безопасности.</string>
+    <string name="account_restore_replace_hint">Фраза этого аккаунта вернёт доступ к нему вместе с перепиской на устройстве. Фраза другого аккаунта потребует полной очистки устройства — приложение попросит подтверждение.</string>
+    <string name="account_replace_title">Удалить данные текущего аккаунта?</string>
+    <string name="account_replace_create_text">С устройства будут безвозвратно удалены переписка, контакты, ключи шифрования (PSK), заявки и настройки текущего аккаунта. По фразе восстановления можно будет вернуть только сам аккаунт — переписка и контакты этого устройства не вернутся.</string>
+    <string name="account_replace_create_confirm">Удалить и создать</string>
+    <string name="account_replace_restore_text">Эта фраза принадлежит другому аккаунту. Перед восстановлением с устройства будут безвозвратно удалены переписка, контакты, ключи шифрования (PSK), заявки и настройки текущего аккаунта.</string>
+    <string name="account_replace_restore_confirm">Удалить и восстановить</string>
+
+    <!-- Экран показа мнемоники (один раз) -->
+    <string name="recovery_title">Сохраните фразу восстановления</string>
+    <string name="recovery_warning">Это ЕДИНСТВЕННЫЙ способ восстановить аккаунт. Запишите фразу на бумаге и храните офлайн. Потеря фразы и пароля = безвозвратная потеря доступа к аккаунту и перепискам. Это цена настоящего E2EE — мы не можем восстановить их за вас.</string>
+    <string name="recovery_screenshot_note">Скриншоты запрещены (FLAG_SECURE). Не фотографируйте другим устройством и не храните фразу в облаке.</string>
+    <string name="recovery_account_id">ID аккаунта: %1$s</string>
+    <string name="recovery_fingerprint">Отпечаток: %1$s</string>
+    <string name="recovery_ack">Я записал(а) фразу и понимаю риск</string>
+
+    <!-- Вход (разблокировка) -->
+    <string name="unlock_title">Вход в AEGIS</string>
+    <string name="unlock_subtitle">Введите пароль, чтобы разблокировать аккаунт %1$s.</string>
+    <string name="unlock_submit">Войти</string>
+    <string name="unlock_wrong_password">Неверный пароль</string>
+    <string name="unlock_forgot">Забыли пароль? Восстановите аккаунт по мнемонической фразе.</string>
+    <string name="unlock_biometric_button">Войти по биометрии</string>
+    <string name="unlock_biometric_title">Вход в AEGIS</string>
+    <string name="unlock_biometric_subtitle">Подтвердите вход биометрией</string>
+    <string name="unlock_biometric_use_password">Ввести пароль</string>
+    <string name="unlock_biometric_error">Биометрический вход недоступен. Введите пароль.</string>
+    <string name="unlock_biometric_reset">Вход по отпечатку отключён: набор отпечатков на телефоне изменился или обновилась защита приложения. Войдите паролем и включите его снова в настройках безопасности.</string>
+    <string name="unlock_wrong_password_wipe">Неверный пароль. Попыток до стирания данных: %1$d</string>
+    <string name="unlock_locked_out">Слишком много неверных попыток. Повторите через %1$s</string>
+    <string name="unlock_incoming_call">Входящий звонок. Войдите, чтобы узнать, кто звонит, и ответить.</string>
+
+    <!-- Профиль (§14.1) -->
+    <string name="profile_account_id">ID аккаунта</string>
+    <string name="profile_fingerprint">Отпечаток (safety number)</string>
+    <string name="profile_login">Логин</string>
+    <string name="profile_no_login">не задан</string>
+    <string name="profile_creation_mode">Способ создания</string>
+    <string name="profile_creation_manual">Логин и пароль</string>
+    <string name="profile_creation_auto">Авто (без пароля)</string>
+    <string name="profile_multidevice">Мультидевайс</string>
+    <string name="profile_allowed">разрешён</string>
+    <string name="profile_forbidden">запрещён</string>
+    <string name="profile_lock">Заблокировать</string>
+    <string name="profile_show_recovery">Показать фразу восстановления</string>
+    <string name="profile_delete">Удалить аккаунт (crypto-shredding)</string>
+    <string name="profile_delete_confirm_title">Удалить аккаунт?</string>
+    <string name="profile_delete_confirm_text">Будут уничтожены ключи и запечатанная запись. Это необратимо: без сохранённой фразы восстановление невозможно.</string>
+    <string name="common_cancel">Отмена</string>
+    <string name="common_delete">Удалить</string>
+    <string name="common_continue">Продолжить</string>
+    <string name="common_back">Назад</string>
+
+    <!-- P4: ручной обмен ключом контейнера (PSK), §6.2/§10.3 -->
+    <string name="contacts_subtitle">Аккаунт без привязки к телефону — только никнейм и отпечаток ключа. Здесь вы проводите ручной обмен ключом контейнера (PSK) для слоя A.</string>
+    <string name="psk_hub_title">Ключи контейнера (PSK)</string>
+    <string name="psk_hub_subtitle">PSK — секрет слоя A. Он обменивается СТРОГО лично и вне сети (QR / фраза / NFC) и НИКОГДА не уходит в сеть. Сервер видит только зашифрованный контейнер.</string>
+    <string name="psk_new">Новый обмен ключом</string>
+    <string name="psk_empty">Пока нет ни одного ключа контейнера. Обменяйтесь PSK с собеседником лично.</string>
+    <string name="psk_native_missing">Нативное крипто-ядро не собрано — обмен PSK недоступен. Соберите Rust-модуль (см. README.md).</string>
+    <string name="psk_contact_label">Имя контакта (никнейм)</string>
+    <string name="psk_contact_hint">Как отобразить этого собеседника на устройстве</string>
+    <string name="psk_contact_required">Укажите имя контакта</string>
+    <string name="psk_method_title">Способ обмена (только лично)</string>
+    <string name="psk_method_show">Показать мой ключ (QR / NFC)</string>
+    <string name="psk_method_scan">Сканировать QR собеседника</string>
+    <string name="psk_method_mnemonic">Ввести фразу собеседника</string>
+    <string name="psk_method_nfc_receive">Принять по NFC (касание)</string>
+    <string name="psk_warning_inperson">Показывайте ТОЛЬКО лично. Ключ не должен попасть на фото, в облако или в сеть. В буфер обмена ключ не копируется.</string>
+    <string name="psk_flagsecure_note">Скриншоты запрещены (FLAG_SECURE). QR автоматически скроется через %1$d с.</string>
+    <string name="psk_show_qr_hidden">QR скрыт для безопасности. Нажмите, чтобы показать снова.</string>
+    <string name="psk_qr_unavailable">Не удалось построить QR-код. Передайте ключ по NFC или мнемонической фразой.</string>
+    <string name="psk_qr_bundle_via_nfc">QR содержит ключ контейнера (слой A). Для мгновенной защищённой сессии (слой B) передайте полный prekey-бандл по NFC — поднесите устройства вплотную, пока открыт этот экран.</string>
+    <string name="psk_show_mnemonic_toggle">Показать фразой (24 слова)</string>
+    <string name="psk_show_mnemonic_hide">Скрыть фразу</string>
+    <string name="psk_show_fingerprint">Отпечаток ключа (сверьте вслух)</string>
+    <string name="psk_nfc_present_hint">Либо поднесите устройство собеседника вплотную, чтобы передать ключ по NFC (пока открыт этот экран).</string>
+    <string name="psk_nfc_unavailable">NFC недоступен или выключен на этом устройстве. Используйте QR или фразу.</string>
+    <string name="psk_scan_prompt">Наведите камеру на QR собеседника (только лично)</string>
+    <string name="psk_scan_cancelled">Сканирование отменено.</string>
+    <string name="psk_mnemonic_label">Мнемоническая фраза (24 слова через пробел)</string>
+    <string name="psk_mnemonic_submit">Импортировать ключ</string>
+    <string name="psk_receive_nfc_waiting">Ожидание касания… Поднесите устройство собеседника, где открыт показ ключа.</string>
+    <string name="psk_import_success">Ключ контейнера сохранён для «%1$s».</string>
+    <string name="psk_source_generated">Создан здесь</string>
+    <string name="psk_source_qr">Получен по QR</string>
+    <string name="psk_source_mnemonic">Введён фразой</string>
+    <string name="psk_source_nfc">Получен по NFC</string>
+    <string name="psk_source_remote">Выведен при добавлении по адресу</string>
+    <string name="psk_card_created">Добавлен: %1$s</string>
+    <string name="psk_delete">Удалить ключ</string>
+    <string name="psk_delete_confirm_title">Удалить ключ контакта?</string>
+    <string name="psk_delete_confirm_text">Слой A для этого контакта перестанет работать, пока не проведёте обмен заново.</string>
+    <string name="psk_done">Готово</string>
+    <string name="psk_open_chat">Открыть чат</string>
+    <string name="psk_relay_missing_hint">Адрес onion-релея не задан. Обмен QR создаст чат и ключи, но сообщения не дойдут, пока не укажете релей в «Настройки → Сеть и Tor».</string>
+    <string name="psk_relay_missing_hint_direct">Сервер без Tor не настроен. Обмен QR создаст чат и ключи, но сообщения не дойдут, пока вы не включите Tor или не укажете HTTPS-адрес релея в «Настройки → Сеть и Tor».</string>
+    <string name="relay_missing_banner">Адрес onion-релея не задан — сообщения не доставляются. Укажите его в Настройки → Сеть и Tor.</string>
+    <string name="relay_missing_banner_direct">Сервер без Tor не настроен — сообщения не доставляются. Включите Tor или укажите HTTPS-адрес релея в «Настройки → Сеть и Tor».</string>
+    <string name="debug_build_warning">Отладочная сборка — не для настоящей переписки. Через режим разработчика из неё можно извлечь данные открытого аккаунта.</string>
+    <string name="psk_nfc_service_desc">AEGIS: обмен ключом контейнера (PSK) по NFC</string>
+
+    <!-- Уведомления (§14.5) -->
+    <string name="notif_service_title">AEGIS защищён</string>
+    <string name="notif_service_text">Приём сообщений через Tor активен</string>
+    <string name="notif_service_text_direct">Приём сообщений активен (без Tor, прямое соединение)</string>
+    <string name="notif_call_media_title">AEGIS: звонок</string>
+    <string name="notif_call_media_text">Идёт защищённый звонок</string>
+    <string name="notif_new_message">Новое сообщение</string>
+    <string name="notif_incoming_call">Входящий звонок</string>
+    <string name="notif_locked_messages">Новые сообщения. Войдите, чтобы прочитать</string>
+    <string name="notif_locked_call">Входящий звонок. Войдите, чтобы ответить</string>
+    <string name="notif_incoming_video_call">Входящий видеозвонок</string>
+    <string name="notif_call_accept">Принять</string>
+    <string name="notif_call_decline">Отклонить</string>
+    <string name="notif_channel_service_name">Фоновый приём</string>
+    <string name="notif_channel_service_desc">Фоновый приём сообщений (§7.6)</string>
+    <string name="notif_channel_messages_name">Сообщения</string>
+    <string name="notif_channel_calls_name">Звонки</string>
+    <string name="notif_attachment_image">Фото</string>
+    <string name="notif_attachment_video">Видео</string>
+    <string name="notif_attachment_file">Файл</string>
+    <string name="notif_attachment_with_caption">%1$s · %2$s</string>
+
+    <!-- Звонки (P8, §7.5/§10.10) -->
+    <string name="call_type_video">Видеозвонок</string>
+    <string name="call_type_voice">Голосовой звонок</string>
+    <string name="call_camera_off">Камера выкл.</string>
+    <string name="call_sas_prompt">Код сверки (произнесите вслух):</string>
+    <string name="call_psk_protected">Усилено ручным PSK (§6.2) — MITM сервера исключён</string>
+    <string name="call_psk_absent">Без ручного PSK — сверьте код голосом</string>
+    <string name="call_media_tor">Медиа через Tor: выше приватность, возможны задержки</string>
+    <string name="call_media_direct">Без Tor / прямое соединение: IP виден собеседнику и серверу</string>
+    <!-- Информационная строка, НЕ ошибка: между двумя сетями (мобильный оператор,
+         CGNAT, VPN, изоляция клиентов на точке доступа) прямой путь физически не
+         строится, и звонок штатно идёт через резервный ретранслятор. Прежняя
+         формулировка «Прямой путь недоступен» читалась как сбой. -->
+    <string name="call_path_relay_fallback">Между сетями нет прямого пути — медиа идёт через ретранслятор сервера</string>
+    <string name="call_reconnecting">Путь потерян, восстанавливаем соединение…</string>
+    <!-- Экран звонка на заблокированном телефоне (§14.3): без имени и деталей -->
+    <string name="call_locked_title">Входящий звонок</string>
+    <string name="call_locked_hint">Разблокируйте телефон, чтобы увидеть, кто звонит, и код сверки.</string>
+    <string name="call_no_webrtc">Нативный WebRTC недоступен в этой сборке. Сигналинг и ключи работают, реального медиапотока нет — звонок не будет показан как соединённый.</string>
+    <string name="call_ended_default">Завершено</string>
+    <string name="call_btn_decline">Отклонить</string>
+    <string name="call_btn_accept">Принять</string>
+    <string name="call_btn_mic">Микрофон</string>
+    <string name="call_btn_camera">Камера</string>
+    <string name="call_btn_switch_camera">Сменить</string>
+    <string name="call_btn_hangup">Сбросить</string>
+    <string name="call_phase_dialing">Вызов…</string>
+    <string name="call_phase_ringing">Входящий звонок</string>
+    <string name="call_phase_connecting">Соединение…</string>
+    <string name="call_phase_active">Разговор</string>
+    <string name="call_phase_ending">Завершение…</string>
+    <!-- Причины завершения / ошибки звонка (показываются в CallScreen) -->
+    <string name="call_error_start">Не удалось начать звонок: %1$s</string>
+    <string name="call_error_negotiation">Ошибка согласования: %1$s</string>
+    <string name="call_error_accept">Не удалось принять звонок: %1$s</string>
+    <string name="call_error_no_offer">Нет offer</string>
+    <string name="call_error_fgs">Система не разрешила доступ к микрофону для звонка. Откройте приложение и попробуйте ещё раз.</string>
+    <!-- Анонимный режим без ретранслятора: прямой путь раскрыл бы IP собеседнику. -->
+    <string name="call_error_relay_required">Ретранслятор через Tor недоступен. Анонимный звонок не начат, чтобы не раскрыть ваш IP-адрес.</string>
+    <string name="call_media_error">Медиа: %1$s</string>
+    <string name="call_connection_ended">Соединение завершено</string>
+    <string name="call_reason_busy">Собеседник занят</string>
+    <string name="call_reason_declined">Звонок отклонён</string>
+    <string name="call_reason_ended">Звонок завершён</string>
+    <string name="call_reason_timeout">Нет ответа</string>
+    <string name="call_reason_unreachable">Не удалось соединиться: сеть не пропускает медиапоток</string>
+
+    <!-- Этапы установки звонка (лента на экране звонка, §7.5) -->
+    <string name="call_stages_title">Этапы соединения</string>
+    <string name="call_stage_at_fraction">+%1$.1f с</string>
+    <string name="call_stage_at_seconds">+%1$d с</string>
+    <string name="call_stage_outgoing">Набор номера</string>
+    <string name="call_stage_incoming">Входящий вызов</string>
+    <string name="call_stage_incoming_accepted">Вызов принят</string>
+    <string name="call_stage_service">Служба звонка (микрофон)</string>
+    <string name="call_stage_turn">Ретранслятор TURN</string>
+    <string name="call_stage_engine">Медиадвижок готов</string>
+    <string name="call_stage_local_sdp">Параметры шифрования готовы</string>
+    <string name="call_stage_signal_offer">Отправка приглашения через релей…</string>
+    <string name="call_stage_signal_offer_done">Приглашение доставлено</string>
+    <string name="call_stage_signal_answer">Отправка ответа через релей…</string>
+    <string name="call_stage_signal_answer_done">Ответ получен</string>
+    <string name="call_stage_keys">Ключи звонка выведены</string>
+    <string name="call_stage_ice">Поиск сетевого пути…</string>
+    <string name="call_stage_ice_done">Путь найден</string>
+    <string name="call_stage_media">Запуск медиапотока…</string>
+    <string name="call_stage_media_done">Медиа защищено (DTLS-SRTP + кадровый AEAD)</string>
+    <string name="call_stage_ended">Звонок завершён</string>
+    <!-- Короткие пояснения к этапам -->
+    <string name="call_stage_detail_accepted">вы нажали «Принять»</string>
+    <string name="call_stage_detail_turn_absent_tor">недоступен — без него анонимный звонок не начнётся</string>
+    <string name="call_stage_detail_turn_ready_tor">через Tor — единственный путь медиа</string>
+    <string name="call_stage_detail_turn_ready_direct">TURN сервера — резерв, если прямого пути нет</string>
+    <string name="call_stage_detail_turn_stun_only">только STUN сервера: без TURN собеседник за NAT или в режиме Tor недостижим</string>
+    <!-- Без Tor сервер не выдал ни STUN, ни TURN: предупреждение, а не сбой. -->
+    <string name="call_stage_detail_turn_absent_direct">сервер не выдал STUN/TURN — соединимся только в одной сети</string>
+    <string name="call_stage_detail_keys_psk">усилено ручным PSK</string>
+    <string name="call_stage_detail_keys_plain">без ручного PSK — сверьте код голосом</string>
+    <string name="call_stage_detail_frame_layer">кадровый AEAD навешен</string>
+    <string name="call_error_frame_crypto">Не удалось включить кадровое шифрование медиа</string>
+    <string name="call_frame_layer">Кадровый слой: AES-128-GCM на ключах Signal+PSK поверх DTLS-SRTP</string>
+    <string name="call_frame_layer_off">Кадровый слой не навешен — медиа только DTLS-SRTP</string>
+    <string name="call_stage_detail_path_direct">напрямую с собеседником</string>
+    <string name="call_stage_detail_path_relay">через ретранслятор</string>
+    <string name="call_stage_detail_no_path">сеть не пропускает медиапоток</string>
+    <string name="call_stage_detail_reconnecting">восстановление пути</string>
+
+    <!-- Настройки: общий экран (§14) -->
+    <string name="settings_security_profile_title">Профиль безопасности</string>
+    <string name="settings_security_profile_active">Активный профиль: %1$s</string>
+    <string name="settings_crypto_core_title">Крипто-ядро (диагностика)</string>
+
+    <!-- Настройки: Диагностика (журнал обмена ключами / доставки) -->
+    <string name="diag_section_title">Диагностика</string>
+    <string name="diag_section_desc">Включите запись ПЕРЕД проблемным действием (обмен ключами, отправка, звонок, вход). Журнал подробно фиксирует шаги приложения, native-логи WebRTC и факт аварийного обрыва процесса. Секретов нет (PSK, текст, адреса ящиков) — файл можно отправить, чтобы увидеть, на каком шаге произошёл сбой.</string>
+    <string name="diag_toggle_title">Запись журнала</string>
+    <string name="diag_toggle_sub">Пишет подробный журнал: аккаунт, Tor, релей, обмен ключами, сообщения, звонки, ICE/TURN, native WebRTC, синхронизация устройств.</string>
+    <string name="diag_size">Размер журнала: %1$s</string>
+    <string name="diag_share">Отправить журнал файлом</string>
+    <string name="diag_save_file">Сохранить как файл</string>
+    <string name="diag_clear">Очистить журнал</string>
+    <string name="diag_export_empty">Журнал пуст — включите запись и повторите действие</string>
+    <string name="diag_export_saved">Файл журнала сохранён</string>
+    <string name="diag_export_fail">Не удалось отправить журнал</string>
+
+    <string name="preset_paranoid">Параноик</string>
+    <string name="preset_balanced">Баланс</string>
+    <string name="preset_fast">Быстро</string>
+    <string name="preset_custom">Свой</string>
+
+    <!-- Настройки: Сеть и Tor (§14.7) -->
+    <string name="tor_section_title">Сеть и Tor</string>
+    <string name="tor_status_line">Статус: %1$s</string>
+    <string name="tor_not_built_warning">Встроенный Tor (Arti) не собран в этой сборке. Индикатор НЕ показывает «подключено»: трафик в onion не идёт, SOCKS нет. Нужна полная сборка с фичей tor.</string>
+    <string name="tor_toggle_title">Tor</string>
+    <string name="tor_toggle_call_locked">Во время звонка режим сети не меняется — переключите после завершения.</string>
+    <string name="tor_off_dialog_title">Выключить Tor?</string>
+    <string name="tor_off_dialog_body">Без Tor приложение соединяется с сервером AEGIS напрямую по HTTPS. Шифрование сообщений и звонков не меняется — меняется то, что видят другие:\n\n• провайдер увидит, что вы соединяетесь с сервером AEGIS;\n• сервер увидит ваш IP-адрес и сможет сопоставлять его с адресами ваших ящиков, то есть косвенно понять, кто с кем переписывается;\n• в звонках собеседник увидит ваш IP-адрес.\n\nВстроенный Tor при этом не запускается вовсе.</string>
+    <string name="tor_off_dialog_confirm">Выключить Tor</string>
+    <string name="tor_off_dialog_cancel">Оставить Tor</string>
+    <string name="tor_mode_always">Весь трафик через встроенный Tor (рекомендуется)</string>
+    <string name="tor_mode_off">Выключен: прямое HTTPS-соединение с сервером AEGIS</string>
+    <string name="tor_bridges_title">Мосты / pluggable transports (обход блокировок)</string>
+    <string name="tor_pt_none">PT-бинари не вложены в эту сборку — доступны только «ванильные» мосты.</string>
+    <string name="tor_pt_available">PT-бинари вложены: %1$s</string>
+    <string name="tor_bridge_off">Без мостов (прямой Tor)</string>
+    <string name="tor_bridge_obfs4">Встроенные obfs4 (рекомендуется при цензуре)</string>
+    <string name="tor_bridge_snowflake">Встроенный Snowflake (маскировка под видеозвонок)</string>
+    <string name="tor_bridge_custom">Свои мосты (bridge lines)</string>
+    <string name="tor_bridge_custom_help">Строки мостов (obfs4/snowflake/meek_lite), по одной на строку. Бинарь PT подставляется автоматически из встроенных. Свежие мосты — на bridges.torproject.org.</string>
+    <string name="tor_bridge_lines_label">Bridge lines</string>
+    <string name="tor_bridge_rotate_note">Встроенные мосты периодически ротируются. Если не подключается — выберите «Свои мосты» и вставьте свежие с bridges.torproject.org.</string>
+    <string name="tor_bridge_apply">Применить настройки мостов</string>
+    <string name="tor_onion_hint">&lt;адрес&gt;.onion[:порт] — можно вставить URL целиком</string>
+    <string name="tor_onion_test">Проверить достижимость через Tor</string>
+    <string name="tor_onion_source_auto">Адреса определяются автоматически (зашитые по умолчанию + подписанный конфиг сервера). Вводить вручную не нужно.</string>
+    <string name="tor_onion_source_manual">Адреса заданы вручную — автоматическое обновление не применяется. Onion и HTTPS должны вести к одному серверу.</string>
+    <string name="tor_onion_reset_auto">Вернуть автоматические адреса</string>
+    <string name="relay_address_title">Адрес релея</string>
+    <string name="relay_onion_label">Onion — для режима с Tor</string>
+    <string name="relay_https_label">HTTPS — для режима без Tor (тот же сервер)</string>
+    <string name="relay_https_hint">https://домен[:порт]</string>
+    <string name="relay_test_hint_tor">Проверяется onion-адрес через Tor. HTTPS-адрес можно проверить только в режиме без Tor: прямое соединение раскрыло бы ваш IP.</string>
+    <string name="relay_test_hint_direct">Проверяется HTTPS-адрес напрямую. Onion-адрес можно проверить только с включённым Tor.</string>
+    <string name="relay_https_test">Проверить соединение по HTTPS</string>
+    <string name="relay_reason_onion_not_set">Адрес onion-релея не задан — в режиме Tor сообщения не доставляются.</string>
+    <string name="relay_reason_onion_invalid">Onion-адрес релея некорректный: нужен v3 (56 символов).onion.</string>
+    <string name="relay_reason_tor_not_ready">Tor ещё подключается — сообщения уйдут, когда он поднимется.</string>
+    <string name="relay_reason_https_not_set">Сервер без Tor не настроен: HTTPS-адрес релея не задан. Включите Tor или укажите адрес ниже.</string>
+    <string name="relay_reason_https_invalid">HTTPS-адрес релея некорректный: нужен https://домен[:порт].</string>
+    <string name="tor_diag_bootstrapping">Подключение… %1$d%%</string>
+    <string name="tor_diag_starting">Запуск…</string>
+    <string name="tor_diag_disabled">Выключен</string>
+    <string name="tor_diag_error">Ошибка: %1$s</string>
+
+    <!-- Настройки: Приватность метаданных — джиттер/cover-traffic fan-out (§14.7, №3b) -->
+    <string name="meta_privacy_title">Приватность метаданных</string>
+    <string name="meta_privacy_desc">Прикрытие тайминга и факта отправки при доставке (fan-out). Не влияет на E2EE-шифрование содержимого — только на метаданные транспорта. По умолчанию оба параметра следуют профилю безопасности.</string>
+    <string name="meta_privacy_mode_auto">Авто (по профилю безопасности)</string>
+    <string name="meta_privacy_jitter_title">Джиттер доставки</string>
+    <string name="meta_privacy_jitter_desc">Случайный порядок и задержки отправки, чтобы наблюдатель за релеем не связывал дропы по таймингу. Больше джиттер — выше приватность, но заметнее задержка (в т.ч. установки звонка).</string>
+    <string name="meta_privacy_jitter_max">Максимальный (до 2,5 c на дроп)</string>
+    <string name="meta_privacy_jitter_moderate">Умеренный (до 0,8 c на дроп)</string>
+    <string name="meta_privacy_jitter_off">Выключен (без задержки)</string>
+    <string name="meta_privacy_cover_title">Фиктивный трафик (cover-traffic)</string>
+    <string name="meta_privacy_cover_desc">Фоновые холостые дропы + добор реального пакета «пустышками», чтобы скрыть сам факт и объём отправки. Работает при доступном релее (через Tor или HTTPS) и разблокированном аккаунте; тратит немного трафика/батареи.</string>
+    <string name="meta_privacy_cover_on">Включён</string>
+    <string name="meta_privacy_cover_off">Выключен</string>
+
+    <!-- Настройки: Безопасность (§14.3) -->
+    <string name="sec_section_title">Безопасность</string>
+    <string name="sec_credentials_title">Логин и пароль входа</string>
+    <string name="sec_credentials_desc">Логин — публичный никнейм при обмене ключами. Пароль (Argon2id) защищает мнемонику, а через неё — базу с перепиской и ключи PSK на этом устройстве; он же включает биометрию и пароль-обманку.</string>
+    <string name="sec_credentials_current">Сейчас: %1$s</string>
+    <string name="sec_credentials_add">Добавить логин и пароль</string>
+    <string name="sec_credentials_set_login">Задать логин</string>
+    <string name="sec_credentials_change_login">Изменить логин</string>
+    <string name="sec_credentials_dialog_title_add">Логин и пароль</string>
+    <string name="sec_credentials_dialog_title_login">Логин</string>
+    <string name="sec_credentials_dialog_desc_add">После сохранения вход на это устройство будет требовать пароль. Мнемоника не меняется — сохраните её отдельно.</string>
+    <string name="sec_credentials_dialog_desc_login">Никнейм, который увидит собеседник при следующем обмене ключами. Криптографическая идентичность не меняется.</string>
+    <string name="sec_credentials_password_warning">Запомните пароль. Без него и без мнемоники доступ к аккаунту на этом устройстве будет потерян.</string>
+    <string name="sec_credentials_saved">Логин и пароль сохранены. Биометрия и пароль-обманка теперь доступны.</string>
+    <string name="sec_credentials_login_saved">Логин сохранён.</string>
+    <string name="sec_state_on">Включён</string>
+    <string name="sec_state_off">Выключен</string>
+    <string name="sec_biometric_title">Вход по биометрии</string>
+    <string name="sec_biometric_desc">Разблокировка отпечатком/лицом без ввода пароля. Ключ-обёртка хранится в аппаратном Keystore/StrongBox и открывается только сильной биометрией, не PIN телефона. Если в системе добавят новый отпечаток, вход отключится и его нужно будет включить заново.</string>
+    <string name="sec_biometric_on_msg">Биометрический вход включён.</string>
+    <string name="sec_biometric_on_fail">Не удалось включить биометрию.</string>
+    <string name="sec_biometric_off_msg">Биометрический вход отключён.</string>
+    <string name="sec_biometric_no_password">Недоступно для авто-аккаунта без пароля.</string>
+    <string name="sec_biometric_no_strong">На устройстве не настроена сильная биометрия.</string>
+    <string name="sec_biometric_prompt_title">Включить вход по биометрии</string>
+    <string name="sec_biometric_prompt_subtitle">Подтвердите, чтобы привязать разблокировку к биометрии</string>
+    <string name="sec_autolock_title">Автоблокировка</string>
+    <string name="sec_autolock_desc">Через сколько минут бездействия (нет касаний) ИЛИ пребывания в фоне приложение автоматически блокируется: секрет затирается из памяти и требуется повторный вход. Данные не удаляются.</string>
+    <string name="sec_autolock_off_note">Автоблокировка выключена — приложение блокируется только вручную или по паролю-обманке.</string>
+    <string name="sec_autolock_off">Выкл</string>
+    <string name="sec_autolock_minutes">%1$d мин</string>
+    <string name="sec_duress_title">Пароль-обманка (duress)</string>
+    <string name="sec_duress_desc">Второй пароль входа: при его вводе вместо разблокировки МГНОВЕННО уничтожаются ключи (crypto-shredding), а приложение выглядит как свежеустановленное. Настраивается только для аккаунта с паролем.</string>
+    <string name="sec_duress_change">Изменить</string>
+    <string name="sec_duress_set">Задать</string>
+    <string name="sec_duress_disable">Отключить</string>
+    <string name="sec_duress_disabled_msg">Пароль-обманка отключён.</string>
+    <string name="sec_wipe_failed_title">Стирать после 10 неверных паролей</string>
+    <string name="sec_wipe_failed_sub">После пятой неверной попытки подряд вход замедляется: от 30 секунд до часа. С этой настройкой десятая неудача подряд уничтожает данные, как пароль-обманка.</string>
+    <string name="sec_no_password_warning">Аккаунт без пароля защищает только блокировка экрана телефона: любой, кто знает PIN телефона, откроет переписку. Задайте пароль — тогда база с перепиской и ключи PSK на устройстве откроются только после его ввода.</string>
+    <string name="sec_duress_saved_msg">Пароль-обманка сохранён.</string>
+    <string name="sec_duress_save_fail">Не удалось: минимум 8 символов и он должен отличаться от основного.</string>
+    <string name="sec_duress_dialog_title">Пароль-обманка</string>
+    <string name="sec_duress_dialog_desc">Введите пароль, который будет запускать тихую очистку вместо входа. Он должен отличаться от основного пароля.</string>
+    <string name="sec_duress_field">Duress-пароль</string>
+    <string name="sec_repeat">Повторите</string>
+    <string name="sec_wipe_title">Экстренная очистка</string>
+    <string name="sec_wipe_desc">Ступень 1 — crypto-shredding (мгновенно, необратимо). Ступень 2 — best-effort перезапись свободного места (≤90%%). На флеш-памяти физическое затирание НЕ гарантируется — главная гарантия — ступень 1.</string>
+    <string name="sec_wipe_dialog_title">Экстренная очистка?</string>
+    <string name="sec_wipe_dialog_desc">Будут уничтожены все ключи, аккаунт, PSK и зашифрованная БД. Это необратимо: без сохранённой фразы восстановление невозможно.</string>
+    <string name="sec_wipe_best_effort">Также перезаписать свободное место (ступень 2, дольше; на флеш-памяти без гарантий)</string>
+    <string name="sec_wipe_confirm">Очистить</string>
+    <string name="common_save">Сохранить</string>
+
+    <!-- Настройки: Уведомления (§14.5) -->
+    <string name="notif_section_title">Уведомления</string>
+    <string name="notif_section_desc">Без push и FCM: входящие приходят по long-poll — через Tor или, в режиме без Tor, по HTTPS, — уведомление формируется на устройстве. Сервер и Google о нём не знают (§7.6).</string>
+    <string name="notif_system_blocked">Система запретила уведомления для AEGIS.</string>
+    <string name="notif_system_allow">Разрешить</string>
+    <string name="notif_toggle_main_title">Уведомления</string>
+    <string name="notif_toggle_main_sub">Главный переключатель: показывать уведомления о новых сообщениях и входящих звонках.</string>
+    <string name="notif_toggle_sender_title">Показывать отправителя</string>
+    <string name="notif_toggle_sender_sub">Раскрывать имя контакта в превью. По умолчанию скрыто ради приватности на экране блокировки (§14.3).</string>
+    <string name="notif_toggle_content_title">Показывать текст</string>
+    <string name="notif_toggle_content_sub">Раскрывать содержимое сообщения в превью. По умолчанию скрыто — показывается «Новое сообщение».</string>
+    <string name="notif_toggle_msg_sound_title">Звук сообщений</string>
+    <string name="notif_toggle_msg_sound_sub">Проигрывать звук при новом сообщении.</string>
+    <string name="notif_toggle_msg_vibrate_title">Вибрация сообщений</string>
+    <string name="notif_toggle_msg_vibrate_sub">Вибрировать при новом сообщении.</string>
+    <string name="notif_toggle_call_sound_title">Звук звонков</string>
+    <string name="notif_toggle_call_sound_sub">Проигрывать мелодию при входящем звонке.</string>
+    <string name="notif_toggle_call_synth_title">Встроенная мелодия AEGIS</string>
+    <string name="notif_toggle_call_synth_sub">Синтезированный рингтон в стиле приложения вместо системного. Персональная мелодия контакта всегда важнее.</string>
+    <string name="notif_toggle_call_vibrate_title">Вибрация звонков</string>
+    <string name="notif_toggle_call_vibrate_sub">Вибрировать при входящем звонке.</string>
+    <string name="notif_toggle_call_tones_title">Гудки и тоны звонка</string>
+    <string name="notif_toggle_call_tones_sub">Гудки при исходящем вызове, сигналы согласования, соединения, потери связи и завершения. Звучат в канале разговора (в ухо), громкостью вызова.</string>
+    <string name="notif_toggle_inapp_title">В приложении</string>
+    <string name="notif_toggle_inapp_sub">Показывать уведомления, когда приложение открыто (но чат не на экране). Выключите, чтобы не отвлекаться.</string>
+    <string name="notif_snooze_title">Приостановить все</string>
+    <string name="notif_snooze_1h">1 час</string>
+    <string name="notif_snooze_8h">8 часов</string>
+    <string name="notif_snooze_forever">Навсегда</string>
+    <string name="notif_snooze_resume">Возобновить</string>
+    <string name="notif_snooze_status_forever">Все уведомления отключены (навсегда).</string>
+    <string name="notif_snooze_status_until">Пауза до %1$s.</string>
+    <string name="notif_snooze_status_active">Уведомления активны.</string>
+    <string name="notif_snooze_date_format">d MMM, HH:mm</string>
+
+    <!-- Настройки: Чаты и сообщения (§14.4/§7.3) -->
+    <string name="msg_section_title">Чаты и сообщения</string>
+    <string name="msg_retention_title">Срок хранения переписки</string>
+    <string name="msg_retention_desc">Сообщения старше выбранного срока автоматически удаляются — и локально, и на сервере. Потолок %1$d дней жёсткий: увеличить или отключить нельзя (§7.3). Можно выбрать меньший срок.</string>
+    <string name="msg_retention_current">Сейчас: %1$s.</string>
+    <string name="msg_retention_current_max">Сейчас: %1$s. Это максимально допустимый срок.</string>
+    <string name="msg_autodownload_title">Автозагрузка вложений</string>
+    <string name="msg_autodownload_desc">Автоматически скачивать входящие фото/видео не крупнее %1$d МБ. Через Tor это медленно; при выключенной опции вложения качаются только по тапу (§14.4). Файлы всегда качаются вручную.</string>
+    <plurals name="days_count">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дней</item>
+    </plurals>
+
+    <!-- Настройки: Приватность (§14.2) -->
+    <string name="privacy_section_title">Приватность</string>
+    <string name="privacy_read_receipts_title">Отчёты о прочтении</string>
+    <string name="privacy_read_receipts_sub">Показывать собеседнику двойную галочку, когда вы прочли его сообщение. Взаимно: выключив, вы не увидите и чужие отметки.</string>
+    <string name="privacy_typing_title">Индикатор «печатает…»</string>
+    <string name="privacy_typing_sub">Показывать собеседнику, что вы набираете сообщение.</string>
+    <string name="privacy_online_title">Онлайн-статус</string>
+    <string name="privacy_online_sub">Раскрывать «в сети» / «был(а) в сети» собеседнику, у которого открыт с вами чат.</string>
+    <string name="privacy_blocklist_title">Чёрный список</string>
+    <string name="privacy_blocklist_sub">Заблокированные контакты: входящие отбрасываются, исходящие не отправляются (незаметно для собеседника).</string>
+    <string name="privacy_blocklist_open_cd">Открыть чёрный список</string>
+
+    <!-- Настройки: Звонки (§14.9) -->
+    <string name="call_settings_title">Звонки</string>
+    <string name="call_settings_enable_title">Разрешить звонки</string>
+    <string name="call_settings_enable_sub">E2EE поверх WebRTC (DTLS-SRTP); ключи через Signal-сессию, усиление ручным PSK (§7.5).</string>
+    <string name="call_settings_route_tor">Медиа звонков идёт через Tor: IP скрыт и от сервера, и от собеседника.</string>
+    <string name="call_settings_route_direct">Tor выключен: медиа звонков идёт напрямую, собеседник видит ваш IP. Шифрование то же.</string>
+    <string name="call_settings_no_webrtc">Внимание: нативный WebRTC не собран в этой сборке — сигналинг и согласование ключей звонка работают, но реального медиапотока нет.</string>
+    <string name="call_settings_meta_note">Метаданные звонка минимизированы (§10.10); сигналинг идёт тем же путём, что и сообщения.</string>
+
+    <!-- Приём в фоне: системные разрешения, которые нельзя получить кодом -->
+    <string name="bg_delivery_title">Приём в фоне</string>
+    <string name="bg_delivery_intro">AEGIS не использует push-сервисы: сообщения и звонки приходят по постоянному соединению с релеем (через Tor или напрямую). Системе нужно разрешить приложению работать так — иначе часть звонков и сообщений не дойдёт.</string>
+    <string name="bg_delivery_fsi_off">Полноэкранный входящий звонок запрещён системой</string>
+    <string name="bg_delivery_fsi_explain">Пока запрещено, звонок звучит и вибрирует, но окно с кнопкой «Принять» не появляется — ответить можно только из шторки уведомлений.</string>
+    <string name="bg_delivery_fsi_action">Разрешить полноэкранный звонок</string>
+    <string name="bg_delivery_battery_off">Работа в фоне ограничена оптимизацией батареи</string>
+    <string name="bg_delivery_battery_explain">Свёрнутое приложение система замораживает: входящий звонок не зазвонит и не завибрирует, пока вы сами не откроете AEGIS, а сообщения придут с опозданием. Нажмите кнопку ниже и в системном окне выберите «Разрешить».</string>
+    <string name="bg_delivery_battery_action">Разрешить работу в фоне</string>
+    <string name="bg_delivery_restricted_off">Работа в фоне запрещена: режим батареи «Ограничено»</string>
+    <string name="bg_delivery_restricted_explain">В этом режиме система отключает приём, как только приложение уходит с экрана, — звонки и сообщения не приходят вовсе. На открывшемся экране приложения откройте «Батарея» и выберите «Без ограничений».</string>
+
+    <!-- Мастер настроек доставки: работа в фоне -->
+    <string name="bg_prompt_title">Звонки не будут звонить в свёрнутом приложении</string>
+    <string name="bg_prompt_message">AEGIS не использует push-сервисы: звонки и сообщения приходят по постоянному соединению с релеем. Сейчас система ограничивает работу приложения в фоне и замораживает его вскоре после сворачивания — входящий звонок не зазвонит и не завибрирует, пока вы сами не откроете AEGIS.\n\nРазрешите AEGIS работать в фоне без ограничений: в системном окне нажмите «Разрешить» (или на экране приложения выберите «Батарея → Без ограничений»). Позже это можно сделать в «Настройки → Приём в фоне».</string>
+    <string name="bg_prompt_allow">Разрешить</string>
+
+    <!-- Мастер настроек доставки: полноэкранный звонок (Android 14+) -->
+    <string name="fsi_prompt_title">Звонки не будут показываться на весь экран</string>
+    <string name="fsi_prompt_message">Начиная с Android 14 система разрешает поднимать полноэкранный входящий звонок только приложениям, которые вы отметили сами. Пока разрешения нет, звонок будет звучать и вибрировать, но окно с кнопкой «Принять» не появится — отвечать придётся из шторки уведомлений.\n\nОткройте настройки и разрешите AEGIS полноэкранные уведомления. Позже это можно сделать в «Настройки → Приём в фоне».</string>
+    <string name="fsi_prompt_open">Открыть настройки</string>
+
+    <!-- Мастер настроек доставки: после установки и после каждого обновления -->
+    <string name="setup_later">Позже</string>
+    <string name="setup_notif_title">Уведомления выключены</string>
+    <string name="setup_notif_message">Без уведомлений о входящем звонке в свёрнутом приложении не узнать: его не будет ни на экране блокировки, ни в шторке, а сообщения придут незаметно. Разрешите AEGIS уведомления — имена и текст на экране блокировки по-прежнему скрыты.\n\nПозже это можно сделать в «Настройки → Уведомления».</string>
+    <string name="setup_notif_open">Открыть настройки</string>
+    <string name="setup_locked_title">Звонки, пока аккаунт закрыт</string>
+    <string name="setup_locked_message">Аккаунт закрывается сам после бездействия, вручную и после перезапуска телефона или приложения. Пока он закрыт, приём сейчас остановлен: звонки и сообщения не доходят до следующего входа.\n\nВключите приём при закрытом аккаунте — тогда звонок зазвонит и в это время, только без имени собеседника, а ответить можно сразу после входа. Переписка остаётся закрытой: входящие ждут входа в очереди зашифрованными, ключа базы в памяти нет. Изменить можно в «Настройки → Безопасность».</string>
+    <string name="setup_locked_enable">Включить</string>
+
+    <!-- Приём при закрытом аккаунте (§8 deliverWhileLocked) -->
+    <string name="sec_deliver_locked_title">Принимать, когда аккаунт закрыт</string>
+    <string name="sec_deliver_locked_sub">Сообщения и звонки приходят и при закрытом аккаунте, а расшифровываются после входа</string>
+    <string name="sec_deliver_locked_off_note">Выключено: пока аккаунт закрыт, приём остановлен — сообщения и звонки не приходят до следующего входа.</string>
+    <string name="sec_deliver_locked_on_note">Включено: связь с релеем не прерывается, а входящие складываются в очередь зашифрованными и расшифровываются после входа — ключа базы в памяти при этом нет. Уведомления приходят без имени и текста. Чтобы ответить на звонок, нажмите «Ответить» и войдите — звонок примется сам. Если звонящий положил трубку раньше, телефон может звонить до 75 секунд.</string>
+
+    <!-- Настройки: Оформление (§14.6) -->
+    <string name="appearance_section_title">Оформление</string>
+    <string name="appearance_theme_title">Тема</string>
+    <string name="appearance_theme_dark">Тёмная</string>
+    <string name="appearance_theme_light">Светлая</string>
+    <string name="appearance_theme_system">Системная</string>
+    <string name="appearance_theme_desc">База — тёмная (§13). «Системная» следует за ночным режимом устройства.</string>
+    <string name="appearance_language_title">Язык приложения</string>
+    <string name="appearance_lang_system">Системный</string>
+    <string name="appearance_lang_russian">Русский</string>
+    <string name="appearance_lang_english">English</string>
+    <string name="appearance_language_desc">Смена языка перезапустит экран.</string>
+    <string name="appearance_wallpaper_title">Обои чата</string>
+    <string name="appearance_wallpaper_none">Без обоев</string>
+    <string name="appearance_wallpaper_teal">Бирюза</string>
+    <string name="appearance_wallpaper_graphite">Графит</string>
+    <string name="appearance_wallpaper_midnight">Полночь</string>
+    <string name="appearance_icon_title">Иконка приложения</string>
+    <string name="appearance_icon_default">Стандарт</string>
+    <string name="appearance_icon_minimal">Минимал</string>
+    <string name="appearance_icon_brand_title">Бренд</string>
+    <string name="appearance_icon_disguise_title">Маскировка</string>
+    <string name="appearance_icon_desc">Маскировка меняет ярлык и имя на лаунчере на нейтральную утилиту (§14.1). Уведомления тоже прячут имя AEGIS. Система на миг обновит ярлык — это нормально. Если иконка не сменилась, подождите несколько секунд или перезапустите лаунчер.</string>
+    <string name="appearance_icon_applied">Ярлык обновлён. Если на рабочем столе всё ещё старая иконка — подождите или перезапустите лаунчер.</string>
+    <string name="appearance_icon_apply_failed">Не удалось сменить иконку. Переустановите приложение и попробуйте снова.</string>
+    <string name="notif_disguise_service_title">Синхронизация</string>
+    <string name="notif_disguise_service_text">Обновление данных</string>
+    <string name="notif_disguise_call_media_title">Вызов</string>
+    <string name="notif_disguise_call_media_text">Идёт вызов</string>
+    <string name="notif_disguise_channel_service_name">Синхронизация</string>
+    <string name="notif_disguise_channel_service_desc">Фоновое обновление данных</string>
+    <string name="notif_disguise_channel_messages_name">Уведомления</string>
+    <string name="notif_disguise_channel_calls_name">Вызовы</string>
+
+    <!-- Общие -->
+    <string name="common_done">Готово</string>
+    <string name="common_choose">Выбрать</string>
+    <string name="common_reset">Сброс</string>
+
+    <!-- Экран чата (§13/§14) -->
+    <string name="chat_subtitle_e2ee">Сквозное шифрование активно</string>
+    <string name="chat_subtitle_exchange">Обменяйтесь ключами лично (§6.2)</string>
+    <string name="chat_verified_cd">Контакт проверен</string>
+    <string name="chat_verify_cd">Проверить отпечаток контакта</string>
+    <string name="chat_more_cd">Ещё</string>
+    <string name="chat_menu_rename">Переименовать</string>
+    <string name="chat_rename_title">Переименовать чат</string>
+    <string name="chat_rename_label">Имя чата</string>
+    <string name="chat_rename_hint">Пустое поле вернёт исходное имя: %1$s</string>
+    <string name="chat_rename_hint_id">Пустое поле вернёт исходный идентификатор контакта.</string>
+    <string name="chat_menu_notifications">Уведомления</string>
+    <string name="chat_menu_block">Заблокировать</string>
+    <string name="chat_menu_unblock">Разблокировать</string>
+    <string name="chat_menu_clear">Очистить чат</string>
+    <string name="chat_menu_delete">Удалить чат</string>
+    <string name="chat_clear_title">Очистить чат?</string>
+    <string name="chat_clear_body">Все сообщения в этом чате будут удалены только на этом устройстве. Контакт и ключи сохранятся.</string>
+    <string name="chat_clear_confirm">Очистить</string>
+    <string name="chat_delete_chat_title">Удалить чат?</string>
+    <string name="chat_delete_chat_body">Чат, все сообщения и ключ обмена (PSK) будут удалены с этого устройства. Собеседника это не затронет. Чтобы снова переписываться, потребуется новый обмен ключами.</string>
+    <string name="chat_delete_chat_confirm">Удалить</string>
+    <string name="chat_empty">Сообщений пока нет. Первое сообщение установит защищённую сессию.</string>
+    <string name="chat_delete_title">Удалить сообщение</string>
+    <string name="chat_delete_body">«Удалить у всех» (§7.3) попросит собеседника удалить это сообщение у себя (best-effort, через защищённый канал). «Удалить у меня» — только на этом устройстве.</string>
+    <string name="chat_delete_for_everyone">Удалить у всех</string>
+    <string name="chat_delete_for_me">Удалить у меня</string>
+    <string name="chat_msg_info_title">Информация о сообщении</string>
+    <string name="chat_msg_info_verified">Это сообщение было зашифровано следующими слоями — запись сделана после реального encrypt/decrypt, не декларативно:</string>
+    <string name="chat_msg_info_unknown">Для этого сообщения нет записи о шифровании: оно сохранено до появления этой функции или ещё не прошло конвейер. Новые сообщения показывают фактические алгоритмы.</string>
+    <string name="chat_msg_info_layer_a_on">Слой A (каскад на ручном PSK) — применён</string>
+    <string name="chat_msg_info_layer_a_off">Слой A не применён (нет PSK) — только слой B</string>
+    <string name="chat_msg_info_layer_a_kdf">Ключи каскада: HKDF-SHA512 (разделение доменов)</string>
+    <string name="chat_msg_info_layer_b">Слой B: %1$s</string>
+    <string name="chat_msg_info_layer_b_type">Конверт Signal: %1$s</string>
+    <string name="chat_msg_info_transport">Транспорт: %1$s</string>
+    <string name="chat_msg_info_attachment">Вложение: отдельный каскад AEAD на случайном 256-бит ключе</string>
+    <string name="chat_msg_info_storage">На устройстве хранится в SQLCipher (AES-256), не в открытом виде</string>
+    <string name="chat_blocked_bar">Контакт заблокирован (§14.2)</string>
+    <string name="chat_unverified_banner">Отпечаток контакта не проверен. Нажмите, чтобы сверить safety number (§14.3).</string>
+    <string name="chat_new_device_banner">У контакта появилось новое устройство. Нажмите, чтобы сверить отпечаток (§8).</string>
+    <string name="chat_keys_pending_banner">Ключи слоя B ещё не получены — сообщения не отправятся. Обмен завершится сам, когда у обоих будет сеть (§6.2).</string>
+    <string name="chat_keys_pending_retry">Повторить</string>
+    <string name="chat_download_cd">Скачать вложение</string>
+    <string name="chat_download_retry_cd">Повторить загрузку</string>
+    <string name="chat_video_play_cd">Видео</string>
+    <string name="chat_attach_cd">Вложение</string>
+    <string name="chat_attach_camera">Камера</string>
+    <string name="chat_attach_photo_video">Фото или видео</string>
+    <string name="chat_attach_file">Файл</string>
+    <string name="chat_attach_retry">Повторить</string>
+    <string name="chat_input_placeholder">Сообщение</string>
+    <string name="chat_send_cd">Отправить</string>
+    <string name="chat_size_bytes">%1$d Б</string>
+    <string name="chat_size_kb">%1$d КБ</string>
+    <string name="chat_size_mb">%1$.1f МБ</string>
+    <string name="chat_status_pending">шифрование…</string>
+    <string name="chat_status_sent">зашифровано ✓</string>
+    <string name="chat_status_read">прочитано ✓✓</string>
+    <!--
+      Нейтральная формулировка сознательно: FAILED означает «не ушло», и причина
+      бывает не только криптографической (нет ключей слоя B §6.2), но и сетевой
+      (не поднят Tor, релей отклонил дроп). Прежнее «ошибка E2EE» на недоступном
+      Tor читалось как «шифрование сломалось» — пугало там, где всё цело.
+      Подробности слоёв — в диалоге «Информация о сообщении».
+    -->
+    <string name="chat_status_failed">не отправлено</string>
+    <string name="chat_attach_too_large">Файл слишком большой (макс. %1$d МБ)</string>
+    <string name="chat_attach_unreadable">Не удалось прочитать файл</string>
+    <string name="chat_item_verified_cd">Отпечаток верифицирован</string>
+    <string name="chat_item_e2e_cd">E2E активно</string>
+
+    <!-- Голосовые сообщения (§14.4) -->
+    <string name="chat_voice_record_cd">Записать голосовое</string>
+    <string name="chat_voice_play_cd">Воспроизвести</string>
+    <string name="chat_voice_pause_cd">Пауза</string>
+    <string name="chat_voice_download_cd">Скачать голосовое</string>
+    <string name="chat_voice_cancel_cd">Отменить запись</string>
+    <string name="chat_voice_play_failed">Не удалось воспроизвести</string>
+    <string name="chat_voice_rec">ЗАПИСЬ</string>
+    <string name="chat_voice_remaining">осталось %1$s</string>
+    <string name="chat_voice_hint_hold">Держите кнопку · вверх — зафиксировать</string>
+    <string name="chat_voice_hint_locked">Запись зафиксирована · отправьте или отмените</string>
+    <string name="chat_voice_hint_release_to_cancel">Отпустите, чтобы отменить</string>
+    <string name="chat_voice_slide_cancel">◀ Сдвиньте влево для отмены</string>
+    <string name="chat_voice_slide_cancel_armed">Отпустите — запись будет отменена</string>
+    <string name="chat_voice_too_short">Слишком коротко: удерживайте кнопку микрофона</string>
+    <string name="chat_voice_mic_failed">Микрофон недоступен: проверьте разрешение и не занят ли он другим приложением</string>
+
+    <!-- Диалог уведомлений контакта (§14.5) -->
+    <string name="contact_notif_title">Уведомления · %1$s</string>
+    <string name="contact_notif_mute_title">Заглушить</string>
+    <string name="contact_notif_enable">Включить</string>
+    <string name="contact_notif_sounds_title">Персональные звуки</string>
+    <string name="contact_notif_msg_sound">Звук сообщения</string>
+    <string name="contact_notif_call_ringtone">Мелодия звонка</string>
+    <string name="contact_notif_sound_default">По умолчанию</string>
+    <string name="contact_notif_sound_custom">Выбран пользовательский</string>
+    <string name="contact_mute_status_forever">Контакт заглушён навсегда.</string>
+    <string name="contact_mute_status_until">Заглушён до %1$s.</string>
+    <string name="contact_mute_status_active">Уведомления от контакта включены.</string>
+
+    <!-- Эфемерный статус собеседника (§14.2) -->
+    <string name="presence_typing">печатает…</string>
+    <string name="presence_online">в сети</string>
+    <string name="presence_last_seen">был(а) в сети %1$s</string>
+    <string name="presence_just_now">только что</string>
+    <string name="presence_min_ago">%1$d мин назад</string>
+    <string name="presence_hour_ago">%1$d ч назад</string>
+    <string name="presence_day_ago">%1$d дн назад</string>
+
+    <!-- Перенос аккаунта (§7.1.2) -->
+    <string name="transfer_export_title">Перенос аккаунта</string>
+    <string name="transfer_export_desc">Соберите зашифрованный паролем пакет и передайте его на новое устройство QR-кодом или файлом. Пакет и пароль не уходят в сеть (§7.1.2).</string>
+    <string name="transfer_export_multidevice_notice">Мультидевайс для аккаунта выключен (§7.1.1). Перенос обычно означает смену устройства. Если вы хотите пользоваться двумя устройствами сразу, включите мультидевайс в профиле.</string>
+    <string name="transfer_section_what">Что перенести</string>
+    <string name="transfer_item_account_title">Аккаунт (идентичность)</string>
+    <string name="transfer_item_account_sub">Мнемоника и логин — нужны для входа на новом устройстве</string>
+    <string name="transfer_item_contacts_title">Контакты</string>
+    <string name="transfer_item_contacts_sub">Никнеймы, отпечатки, параметры сессий</string>
+    <string name="transfer_item_conversations_title">Переписки</string>
+    <string name="transfer_item_conversations_sub">Сообщения и состояние Signal (храповики)</string>
+    <string name="transfer_item_attachments_title">Вложения к сообщениям</string>
+    <string name="transfer_item_attachments_sub">Существенно увеличивает размер (только для файла, не QR)</string>
+    <string name="transfer_item_psk_title">Ключи контейнера (PSK)</string>
+    <string name="transfer_item_psk_sub">Без них переписка с контактами недоступна</string>
+    <string name="transfer_item_settings_title">Настройки</string>
+    <string name="transfer_item_settings_sub">Безопасность, сеть/Tor, приватность, уведомления</string>
+    <string name="transfer_section_password">Пароль пакета</string>
+    <string name="transfer_password_label">Пароль переноса</string>
+    <string name="transfer_build">Собрать пакет</string>
+    <string name="transfer_built_title">Пакет собран</string>
+    <string name="transfer_summary_account">Аккаунт</string>
+    <string name="transfer_summary_contacts">Контакты</string>
+    <string name="transfer_summary_messages">Сообщения</string>
+    <string name="transfer_summary_psk">Ключи PSK</string>
+    <string name="transfer_summary_settings">Настройки</string>
+    <string name="transfer_summary_login">Логин</string>
+    <string name="transfer_value_included">включён</string>
+    <string name="transfer_value_none">нет</string>
+    <string name="transfer_value_settings_included">включены</string>
+    <string name="transfer_summary_line">%1$s: %2$s</string>
+    <string name="transfer_qr_hint">Отсканируйте этот QR на новом устройстве. Экран защищён от снимков (§14.3) — показывайте только лично.</string>
+    <string name="transfer_too_big">Пакет слишком большой для QR (%1$d КБ). Сохраните его в файл и перенесите на новое устройство (например, через offline-носитель).</string>
+    <string name="transfer_save_file">Сохранить в файл</string>
+    <string name="transfer_import_title">Перенос с другого устройства</string>
+    <string name="transfer_import_desc">Примите пакет переноса, созданный на старом устройстве, и введите пароль, который вы там задали. Пакет передаётся вне сети (§7.1.2).</string>
+    <string name="transfer_import_no_account_notice">В пакете нет идентичности аккаунта — на чистое устройство его применить нельзя. Соберите пакет с включённым пунктом «Аккаунт».</string>
+    <string name="transfer_apply">Применить перенос</string>
+    <string name="transfer_import_received">Пакет получен. Введите пароль переноса.</string>
+    <string name="transfer_open">Распечатать пакет</string>
+    <string name="transfer_choose_other">Выбрать другой пакет</string>
+    <string name="transfer_scan_qr">Сканировать QR-код</string>
+    <string name="transfer_open_file">Открыть файл пакета</string>
+    <string name="transfer_summary_title">Содержимое пакета</string>
+    <string name="transfer_file_read_fail">Не удалось прочитать файл.</string>
+    <string name="transfer_wrong_password">Неверный пароль пакета.</string>
+    <!-- Ошибки переноса (AccountTransfer, показываются в UI) -->
+    <string name="transfer_err_crypto_unavailable">Криптоядро недоступно в этой сборке.</string>
+    <string name="transfer_err_password_too_short">Пароль переноса — минимум %1$d символов.</string>
+    <string name="transfer_err_account_not_found">Аккаунт не найден.</string>
+    <string name="transfer_err_account_locked">Аккаунт заблокирован — сначала войдите.</string>
+    <string name="transfer_err_build_generic">Не удалось собрать пакет переноса</string>
+    <string name="transfer_err_not_aegis">Это не пакет переноса AEGIS.</string>
+    <string name="transfer_err_unknown_format">Неизвестный формат (ожидался пакет AEGIS).</string>
+    <string name="transfer_err_open_generic">Не удалось распечатать пакет</string>
+    <string name="transfer_err_corrupt">Пакет повреждён.</string>
+    <string name="transfer_err_already_account">На этом устройстве уже есть аккаунт. Сначала удалите его (§7.4).</string>
+    <string name="transfer_err_no_identity">В пакете нет идентичности аккаунта — перенос на чистое устройство невозможен.</string>
+    <string name="transfer_err_bad_mnemonic">Некорректная мнемоника в пакете переноса.</string>
+    <string name="transfer_err_derive_identity">Не удалось вывести идентичность из мнемоники.</string>
+    <string name="transfer_err_apply_generic">Не удалось развернуть данные переноса</string>
+    <string name="transfer_err_no_account_for_merge">На этом устройстве ещё нет аккаунта — используйте импорт на чистое устройство.</string>
+
+    <!-- Слияние переноса в существующий аккаунт (§7.1.2, follow-up) -->
+    <string name="transfer_merge_import_title">Импорт на это устройство</string>
+    <string name="transfer_merge_import_desc">Добавьте контакты, переписки и ключи (PSK) из пакета переноса в УЖЕ существующий аккаунт на этом устройстве. Слияние только добавляет новое: локальные данные не перезаписываются. Идентичность и состояние Signal не переносятся.</string>
+    <string name="profile_merge_import">Импортировать на это устройство</string>
+    <string name="transfer_merge_apply">Слить в этот аккаунт</string>
+    <string name="transfer_merge_report_title">Что будет добавлено</string>
+    <string name="transfer_merge_identity_match">Пакет принадлежит этому же аккаунту.</string>
+    <string name="transfer_merge_identity_other">Внимание: пакет от ДРУГОГО аккаунта. Идентичность и состояние Signal не переносятся; чаты придётся переустановить (нужен PSK и сессия).</string>
+    <string name="transfer_merge_contacts">Контакты: +%1$d (уже есть: %2$d)</string>
+    <string name="transfer_merge_messages">Сообщения: +%1$d (уже есть: %2$d)</string>
+    <string name="transfer_merge_messages_orphaned">Пропущено сообщений без контакта: %1$d</string>
+    <string name="transfer_merge_psks">Ключи PSK: +%1$d (конфликтов, оставлен локальный: %2$d)</string>
+    <string name="transfer_merge_settings_checkbox">Применить настройки из пакета (перезапишет локальные)</string>
+    <string name="transfer_merge_nothing">Новых данных для добавления нет — всё уже есть локально.</string>
+    <string name="transfer_merge_done">Слияние выполнено: +%1$d контакт., +%2$d сообщ., +%3$d PSK.</string>
+
+    <!-- Мультидевайс: линковка устройства (§7.1.1, docs/multidevice.md §5) -->
+    <string name="link_export_title">Привязать устройство</string>
+    <string name="link_export_desc">Создайте зашифрованный паролем пакет, чтобы привязать НОВОЕ устройство к этому аккаунту. Пакет содержит мнемонику, публичные данные контактов и ключи слоя A, но НЕ содержит состояние Signal — новое устройство установит свои сессии само. Передавайте пакет строго вне сети (лично, QR/файл).</string>
+    <string name="link_export_disabled_notice">Мультидевайс выключен для этого аккаунта. Включите его в профиле, чтобы привязывать устройства.</string>
+    <string name="link_label_field">Имя нового устройства (например, «Планшет»)</string>
+    <string name="link_password_label">Пароль линковки</string>
+    <string name="link_build">Создать пакет линковки</string>
+    <string name="link_built_title">Пакет готов</string>
+    <string name="link_built_hint">Отсканируйте QR на новом устройстве в экране «Принять устройство» либо перенесите файл. Пароль сообщите отдельным каналом.</string>
+    <string name="link_qr_hint">Показывайте QR лично. Экран защищён от скриншотов.</string>
+    <string name="link_summary_device_id">ID устройства</string>
+    <string name="link_summary_label">Имя устройства</string>
+    <string name="link_accept_title">Принять устройство</string>
+    <string name="link_accept_desc">Примите пакет линковки с первичного устройства (QR/файл) и введите пароль линковки. Это устройство станет частью аккаунта; история сообщений подтянется по self-sync.</string>
+    <string name="link_accept_apply">Привязать это устройство</string>
+    <string name="link_accept_summary_title">Данные линковки</string>
+    <string name="link_err_multidevice_disabled">Мультидевайс выключен для этого аккаунта (§7.1.1). Включите его в профиле.</string>
+    <string name="link_err_no_device_ids">Исчерпан лимит device id (255). Отзовите неиспользуемые устройства.</string>
+    <string name="link_err_bad_device_id">Пакет линковки содержит некорректный device id.</string>
+    <string name="onboarding_link_device">Принять устройство (мультидевайс)</string>
+    <string name="profile_link_device">Привязать устройство</string>
+    <string name="profile_my_devices">Мои устройства</string>
+
+    <!-- Мои устройства (§7.1.1, docs/multidevice.md §5/§10) -->
+    <string name="devices_title">Мои устройства</string>
+    <string name="devices_desc">Устройства этого аккаунта. Переименуйте их для удобства или отзовите линкованное устройство, чтобы прекратить доставку на него.</string>
+    <string name="devices_disabled_notice">Мультидевайс выключен для этого аккаунта. Пока он выключен, второе устройство не работает; отзыв всё равно доступен.</string>
+    <string name="devices_no_linked">Линкованных устройств нет. Привяжите устройство в профиле, чтобы использовать аккаунт на нескольких устройствах.</string>
+    <string name="devices_unnamed">Без имени</string>
+    <string name="devices_id_this">ID %1$d · это устройство</string>
+    <string name="devices_id_linked">ID %1$d · линкованное</string>
+    <string name="devices_id_revoked">ID %1$d · отозвано</string>
+    <string name="devices_rename">Переименовать</string>
+    <string name="devices_rename_label">Имя устройства</string>
+    <string name="devices_revoke">Отозвать</string>
+    <string name="devices_revoke_confirm_title">Отозвать устройство?</string>
+    <string name="devices_revoke_confirm_text">Устройство перестанет получать новые сообщения и синхронизацию; контакты уберут его из доставки. Уже полученные им сообщения останутся на нём (§10). Действие необратимо.</string>
+
+    <!-- Верификация контакта (§14.3) -->
+    <string name="verify_title">Верификация: %1$s</string>
+    <string name="verify_code_label">Код сверки безопасности</string>
+    <string name="verify_instructions">Сверьте этот код с собеседником лично или по доверенному каналу (например, во время звонка с уже сверенным SAS). Если коды совпали — отметьте контакт проверенным. Совпадение исключает подмену ключей недоверенным сервером (§6.2/§10.7): код невозможно воспроизвести без вашего ручного PSK.</string>
+    <string name="verify_unmark">Снять отметку «проверен»</string>
+    <string name="verify_mark">Коды совпали — отметить проверенным</string>
+    <string name="verify_status_verified">Контакт проверен</string>
+    <string name="verify_status_unverified">Контакт не проверен</string>
+    <string name="verify_status_verified_desc">Отпечаток сверен вне сети. Индикатор «проверен» показывается в чате.</string>
+    <string name="verify_status_unverified_desc">Рекомендуется сверить отпечаток до обмена чувствительными сообщениями (§14.3).</string>
+    <string name="verify_err_layer_b">Слой B (Signal) недоступен в этой сборке — код сверки не вычислить.</string>
+    <string name="verify_err_no_remote_key">Нет публичного ключа собеседника. Обменяйтесь ключами лично (§6.2).</string>
+    <string name="verify_err_no_psk">Для этого контакта не установлен PSK. Сначала обменяйтесь ключом лично (§6.2).</string>
+    <string name="verify_err_compute">Не удалось вычислить код сверки.</string>
+    <string name="verify_devices_section">Дополнительные устройства контакта</string>
+    <string name="verify_devices_desc">У контакта несколько устройств (мультидевайс). Каждое имеет свой отпечаток — сверьте код каждого отдельно.</string>
+    <string name="verify_device_title">Устройство ID %1$d</string>
+
+    <!-- Чёрный список (§14.2) -->
+    <string name="blocklist_title">Чёрный список</string>
+    <string name="blocklist_empty">Контактов пока нет. Добавьте контакт через ручной обмен ключами (§6.2).</string>
+    <string name="blocklist_status_blocked">Заблокирован</string>
+    <string name="blocklist_status_active">Активен</string>
+
+    <!-- Онбординг / профиль (перенос) -->
+    <string name="onboarding_transfer_from_device">Перенести с другого устройства</string>
+    <string name="profile_transfer_account">Перенести аккаунт</string>
+
+    <!-- Доменные ошибки (показываются в UI) -->
+    <string name="acct_err_bad_mnemonic">Некорректная мнемоническая фраза (проверьте слова и порядок).</string>
+    <string name="acct_err_no_unwrap_key">Не удалось получить ключ распечатывания.</string>
+    <string name="acct_err_unlock">Ошибка разблокировки</string>
+    <string name="acct_err_biometric_not_set">Биометрический вход не настроен.</string>
+    <string name="acct_err_biometric_unlock">Ошибка биометрической разблокировки</string>
+    <string name="acct_err_create">Не удалось создать аккаунт</string>
+    <string name="acct_err_replace_unlocked">Аккаунт открыт: заблокируйте его, прежде чем создавать или восстанавливать другой.</string>
+    <string name="psk_err_not_aegis">Это не код обмена AEGIS.</string>
+    <string name="psk_err_unknown_format">Неизвестный формат кода (ожидался ключ AEGIS).</string>
+    <string name="psk_err_corrupt">Повреждённый PSK в коде.</string>
+    <string name="psk_err_bad_phrase">Некорректная фраза. Проверьте слова и порядок.</string>
+    <string name="psk_err_save">Не удалось сохранить PSK</string>
+    <string name="psk_err_show_first">Сначала откройте свой QR, затем сканируйте код собеседника.</string>
+    <string name="psk_err_no_account">В коде собеседника нет идентификатора аккаунта. Обновите AEGIS у собеседника и повторите обмен.</string>
+    <string name="psk_err_generate">Не удалось подготовить обмен ключом.</string>
+    <string name="psk_mutual_hint">Обмен взаимный. Оба держат ЭТОТ экран открытым: отсканируйте QR собеседника и дайте ему отсканировать ваш. Не закрывайте экран, пока у обоих не появится «✓». Затем сверьте код безопасности в чате — он должен совпасть на обоих телефонах.</string>
+    <string name="psk_mutual_wait_peer">Ваша сторона готова. НЕ закрывайте экран, пока собеседник не отсканирует ваш QR, иначе у него обмен не завершится.</string>
+    <string name="nfc_err_no_isodep">Устройство не поддерживает ISO-DEP.</string>
+    <string name="nfc_err_not_showing">На другом устройстве не открыт показ ключа AEGIS.</string>
+    <string name="nfc_err_read">Ошибка чтения по NFC.</string>
+    <string name="nfc_err_payload_too_big">Слишком большая нагрузка по NFC.</string>
+    <string name="onion_err_empty">Укажите onion-адрес релея</string>
+    <string name="onion_err_invalid">Некорректный onion-адрес. Нужен v3 (56 символов).onion — можно вставить URL целиком, схема https:// отбросится.</string>
+    <string name="onion_err_no_tor">Встроенный Tor недоступен в сборке</string>
+    <string name="onion_err_not_running">Tor не запущен или недоступен</string>
+    <string name="onion_err_bootstrapping">Tor ещё подключается. Дождитесь статуса «подключён» и повторите проверку.</string>
+    <string name="onion_ok">Успех: релей достижим через Tor</string>
+    <string name="onion_err_unreachable">Релей недоступен через Tor. Проверьте, что сервер запущен, адрес — именно .onion (не https-сайт), и индикатор Tor показывает «подключён».</string>
+    <string name="onion_err_timeout">Таймаут подключения к релею через Tor</string>
+    <string name="onion_err_prefix">Ошибка: %1$s</string>
+    <string name="onion_err_tor_off">Проверка onion-релея идёт через Tor, а он выключен.</string>
+    <string name="https_err_tor_on">Проверка HTTPS доступна только в режиме без Tor: при включённом Tor прямое соединение раскрыло бы ваш IP.</string>
+    <string name="https_err_empty">Укажите HTTPS-адрес релея</string>
+    <string name="https_err_invalid">Некорректный адрес: нужен https://домен[:порт] без пути. http:// не принимается.</string>
+    <string name="https_err_switching">Идёт переключение режима сети — повторите через пару секунд.</string>
+    <string name="https_ok">Успех: релей AEGIS отвечает по HTTPS</string>
+    <string name="https_err_not_relay">По этому адресу отвечает не релей AEGIS. Проверьте домен.</string>
+    <string name="https_err_status">Релей ответил ошибкой HTTP %1$d</string>
+    <string name="https_err_tls">TLS не прошёл: сертификат не подтвердился (цепочка, имя сервера или пин SPKI).</string>
+    <string name="https_err_dns">Имя сервера не найдено (DNS).</string>
+    <string name="https_err_timeout">Таймаут соединения с релеем по HTTPS</string>
+    <string name="https_err_unreachable">Релей недоступен по HTTPS. Проверьте сеть и адрес.</string>
+    <string name="attachment_default_name">файл</string>
+
+    <!-- Удалённое добавление контактов (RCH v1, docs/contact_requests.md) -->
+    <string name="notif_contact_request_title">Заявка в контакты: %1$s</string>
+    <string name="notif_contact_request_text">Вас хотят добавить в контакты</string>
+
+    <string name="contact_add_title">Добавить контакт</string>
+    <string name="contact_add_remote_title">По адресу или нику</string>
+    <string name="contact_add_remote_hint">Вставьте адрес (aegis:1:…) или введите @ник</string>
+    <string name="contact_add_greeting_hint">Кто вы (необязательно, увидит собеседник)</string>
+    <string name="contact_add_send">Отправить заявку</string>
+    <string name="contact_add_in_person">Личный обмен (QR/NFC)</string>
+    <string name="contact_add_in_person_note">Самый строгий способ: секрет слоя A переносится физически, без сети.</string>
+    <string name="contact_add_remote_note">Удалённое добавление: ключи сверяются по адресу, который вам дали. Подменить их не может даже скомпрометированный сервер — но подлинность самого адреса подтвердить нечем, поэтому сверьте отпечаток после активации.</string>
+    <string name="contact_add_my_address">Мой адрес</string>
+    <string name="contact_add_copy">Скопировать</string>
+    <string name="contact_add_copied">Адрес скопирован</string>
+    <string name="contact_add_rotate">Сменить адрес</string>
+    <string name="contact_add_rotate_note">Смена адреса делает все ранее выданные адреса недействительными. Текущие контакты не затрагиваются.</string>
+    <string name="contact_add_alias_title">Публичный ник</string>
+    <string name="contact_add_alias_hint">ник (латиница, цифры, «_», «.»)</string>
+    <string name="contact_add_alias_claim">Занять ник</string>
+    <string name="contact_add_alias_release">Отключить ник</string>
+    <string name="contact_add_alias_current">Занят ник: @%1$s</string>
+    <string name="contact_add_alias_warning">Публичный ник перечислим: кто угадал ник — узнает ваш accountId и сможет прислать заявку. Ключи, устройства и переписка при этом не раскрываются.</string>
+
+    <string name="contact_req_sent">Заявка отправлена: %1$s</string>
+    <string name="contact_req_err_bad_address">Адрес не распознан. Проверьте, что скопировали его полностью.</string>
+    <string name="contact_req_err_not_found">Пользователь не найден. Адрес мог устареть, либо владелец давно не заходил.</string>
+    <string name="contact_req_err_unavailable">Удалённое добавление недоступно: выключено в настройках или не включено на релее.</string>
+    <string name="contact_req_err_untrusted">ПРОВЕРКА НЕ ПРОЙДЕНА (%1$s). Ключи не соответствуют адресу — возможна подмена. Заявка НЕ отправлена.</string>
+    <string name="contact_req_err_self">Это ваш собственный адрес.</string>
+    <string name="contact_req_err_already">Этот контакт уже добавлен.</string>
+    <string name="contact_req_err_pending">Заявка этому пользователю уже отправлена и ждёт ответа.</string>
+    <string name="contact_req_err_failed">Не удалось: %1$s</string>
+
+    <string name="contact_req_title">Заявки в контакты</string>
+    <string name="contact_req_empty">Заявок нет</string>
+    <string name="contact_req_incoming">Входящая заявка</string>
+    <string name="contact_req_outgoing">Отправлена заявка</string>
+    <string name="contact_req_state_pending">Ждёт ответа</string>
+    <string name="contact_req_state_declined">Отклонена</string>
+    <string name="contact_req_account">accountId: %1$s</string>
+    <string name="contact_req_fingerprint">Отпечаток: %1$s</string>
+    <string name="contact_req_verify_hint">Сверьте accountId и отпечаток по независимому каналу, прежде чем принимать: именно на них держится уверенность, что это тот человек.</string>
+    <string name="contact_req_accept">Принять</string>
+    <string name="contact_req_decline">Отклонить</string>
+    <string name="contact_req_cancel">Отменить заявку</string>
+    <string name="contact_req_accepted">Контакт активирован. Код рукопожатия: %1$s</string>
+    <string name="contact_req_declined">Заявка отклонена</string>
+
+    <string name="trust_in_person">Личный обмен</string>
+    <string name="trust_remote_address">Добавлен по адресу</string>
+    <string name="trust_unknown">Способ неизвестен</string>
+    <string name="trust_verified_suffix">, отпечаток сверен</string>
+
+    <!-- Раздел «Контакты»: переключатель разделов, поиск, подробности (§14.1) -->
+    <string name="contacts_tab_list">Контакты</string>
+    <string name="contacts_tab_add">Добавить</string>
+    <string name="contacts_tab_requests">Заявки</string>
+    <string name="contacts_tab_requests_badge">Заявки · %1$d</string>
+
+    <string name="contacts_search_title">Поиск контактов</string>
+    <string name="contacts_search_hint">Имя, ник, accountId или отпечаток</string>
+    <string name="contacts_search_clear">Очистить поиск</string>
+    <string name="contacts_group_all">Все контакты · %1$d</string>
+    <string name="contacts_group_found">Найдено · %1$d</string>
+    <string name="contacts_empty_title">Контактов пока нет</string>
+    <string name="contacts_not_found_title">Ничего не найдено</string>
+    <string name="contacts_not_found_subtitle">Ни один контакт не подходит под запрос. Поиск идёт по имени чата, публичному нику, accountId и отпечатку — можно вставить их прямо с экрана сверки.</string>
+
+    <string name="contacts_details_title">Контакт</string>
+    <string name="contacts_details_identity">Идентичность</string>
+    <string name="contacts_details_state">Состояние</string>
+    <string name="contacts_details_actions">Действия</string>
+    <string name="contacts_details_nickname">Ник обмена</string>
+    <string name="contacts_details_local_name">Имя на этом устройстве</string>
+    <string name="contacts_details_account">accountId</string>
+    <string name="contacts_details_fingerprint">Отпечаток ключа</string>
+    <string name="contacts_details_fingerprint_absent">Ещё не получен</string>
+    <string name="contacts_details_trust">Способ добавления</string>
+    <string name="contacts_details_devices">Устройств известно: %1$d</string>
+    <string name="contacts_details_identity_note">Эти значения и есть идентичность собеседника. Сверяйте их по независимому каналу: имя чата локально и ничего не доказывает.</string>
+    <string name="contacts_details_e2ee_on">Ключи слоя B получены</string>
+    <string name="contacts_details_e2ee_off">Ключи слоя B ещё не получены</string>
+    <string name="contacts_details_muted">Уведомления заглушены</string>
+    <string name="contacts_details_unmuted">Уведомления включены</string>
+    <string name="contacts_details_open_chat">Открыть чат</string>
+    <string name="contacts_details_verify">Сверить отпечаток</string>
+    <string name="contacts_details_delete">Удалить контакт</string>
+
+    <string name="contacts_delete_title">Удалить контакт?</string>
+    <string name="contacts_delete_body">Локально и безвозвратно удаляются: переписка с %1$s, вложения, ключ обмена (PSK), устройства собеседника и заявки от него. Собеседник об этом не узнает, у него всё останется. Добавить контакт заново можно будет только новым обменом ключами.</string>
+    <string name="contacts_delete_failed">Не удалось удалить контакт: %1$s</string>
+
+    <string name="settings_contact_requests">Удалённое добавление контактов</string>
+    <string name="settings_contact_requests_off">Выключено (только QR/NFC)</string>
+    <string name="settings_contact_requests_address">По адресу</string>
+    <string name="settings_contact_requests_alias">По адресу и публичному нику</string>
+    <string name="settings_contact_requests_desc">По адресу: секрет слоя A не передаётся по сети, а выводится из подписанного рукопожатия; подменить ключи сервер не может. Публичный ник дополнительно делает вас находимым по имени — и перечислимым.</string>
+    <string name="settings_contact_decline_notify">Сообщать об отказе</string>
+    <string name="settings_contact_decline_notify_desc">Инициатор узнает, что заявка отклонена, и не будет повторять её. Выключение чуть строже к метаданным.</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Базовая платформенная тема AEGIS: тёмная, без ActionBar (§13).
+         Основной UI рисуется в Compose (AegisTheme); эта тема нужна лишь для
+         окна активити, статус-бара и стартового фона. -->
+    <style name="Theme.AEGIS" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/aegis_background</item>
+        <item name="android:statusBarColor">@color/aegis_background</item>
+        <item name="android:navigationBarColor">@color/aegis_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>

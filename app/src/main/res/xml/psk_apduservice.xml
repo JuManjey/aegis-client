@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  HCE-описание сервиса обмена PSK по NFC (§6.2/P4).
+  AID F0416567697350534B = 0xF0 || "AegisPSK" — проприетарный AID (первый байт
+  0xF0). requireDeviceUnlock=true: PSK отдаётся только на разблокированном
+  устройстве. Обмен локальный, без сети.
+-->
+<host-apdu-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/psk_nfc_service_desc"
+    android:requireDeviceUnlock="true">
+    <aid-group
+        android:category="other"
+        android:description="@string/psk_nfc_service_desc">
+        <aid-filter android:name="F0416567697350534B" />
+    </aid-group>
+</host-apdu-service>

@@ -1,0 +1,53 @@
+# AEGIS client — проверка ВОСПРОИЗВОДИМОСТИ на CI (P9, §9/§12.1).
+#
+# Запускает scripts/verify-reproducible-build.sh (двойная сборка нативного ядра
+# libaegis_core.so + сравнение SHA-256) в детерминированном окружении на
+# независимой машине-раннере. Это закрывает оставшийся оргхвост P9: «полная
+# кросс-машинная воспроизводимость подтверждается сторонним ребилдером/CI»
+# (см. §1.25, docs/reproducible-builds.md).
+name: reproducible-build
+
+on:
+  workflow_dispatch:
+    inputs:
+      abis:
+        description: "ABI через пробел (например: arm64-v8a x86_64)"
+        default: "arm64-v8a"
+        required: false
+  push:
+    tags: ["v*"]
+  schedule:
+    # Раз в неделю (пн 04:00 UTC) — ловим дрейф воспроизводимости.
+    - cron: "0 4 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  core-repro:
+    name: core double-build (SHA-256 match)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install protoc
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends protobuf-compiler
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install NDK
+        run: sdkmanager --install "ndk;30.0.15729638"
+
+      # rust-toolchain.toml (пин 1.97.0) применяется в rust/aegis-core.
+      - name: Prime toolchain & cargo-ndk
+        run: |
+          ( cd rust/aegis-core && rustc --version )
+          cargo install cargo-ndk --locked
+
+      - name: Verify reproducible build (core .so)
+        env:
+          ANDROID_NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/30.0.15729638
+          AEGIS_ABIS: ${{ github.event.inputs.abis || 'arm64-v8a' }}
+        run: bash scripts/verify-reproducible-build.sh

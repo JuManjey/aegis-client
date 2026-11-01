@@ -1,0 +1,13 @@
+Phase 2 (0.2.0):
+• Accounts without a phone number (Argon2id) + mnemonic/recovery-code recovery.
+• Signal Protocol (X3DH + Double Ratchet) with PSK mixed into X3DH.
+• Independent cascade container: XChaCha20 → AES-256 → Camellia-256 → Twofish-256.
+• Out-of-band PSK exchange (QR / mnemonic / NFC).
+• Embedded Tor (Arti): SOCKS5, bootstrap status, bridges/PT (obfs4/snowflake/meek).
+• SQLCipher + StrongBox, biometric unlock, auto-lock on idle.
+• Emergency wipe (crypto-shredding + best-effort) + duress password.
+• Voice/video calls over WebRTC/DTLS-SRTP with an extra AEAD media layer; TURN over Tor.
+• Attachments, read receipts, typing, block list, delete-for-everyone, notifications.
+• Multi-device policy + selective encrypted account transfer (QR/file).
+• Themes, RU/EN, chat wallpapers, app-icon disguise.
+• Open source (GPL-3.0-or-later) + reproducible-build tooling; pre-audit.

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Пути FileProvider (§14.4, follow-up: съёмка на камеру). Разрешаем только
+    подкаталог `camera` внутри приватного кэша приложения — системная камера
+    пишет туда снятый JPEG, который затем читается в память и затирается
+    (CameraCapture.shred, §6.3/§7.4). Никакого доступа к остальным данным.
+-->
+<paths>
+    <cache-path name="camera" path="camera/" />
+    <cache-path name="diagnostics" path="diagnostics/" />
+</paths>

@@ -1,0 +1,20 @@
+# AEGIS — фиксация Rust-тулчейна для ВОСПРОИЗВОДИМЫХ СБОРОК (P9, §9/§12.1).
+#
+# Точная версия (НЕ "stable") обязательна: бинарь libaegis_core.so зависит от
+# конкретного rustc/LLVM, а канал "stable" плавает во времени → две сборки в
+# разные дни дали бы разные .so. Пин версии — необходимое условие
+# reproducible builds (см. docs/reproducible-builds.md).
+#
+# rustup автоматически доустановит этот тулчейн и Android-таргеты при первой
+# сборке (нужна сеть один раз). Локально можно временно обойти файл явным
+# `cargo +stable ...`.
+[toolchain]
+channel = "1.97.0"
+components = ["rustfmt", "clippy"]
+targets = [
+    "aarch64-linux-android",
+    "armv7-linux-androideabi",
+    "x86_64-linux-android",
+    "i686-linux-android",
+]
+profile = "minimal"

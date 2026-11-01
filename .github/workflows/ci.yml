@@ -1,0 +1,121 @@
+# AEGIS client — Continuous Integration (P9, §9/§12.1).
+#
+# Организационное завершение P9: автоматический прогон тестов крипто-ядра и
+# smoke-сборки Android-модуля (Kotlin + нативный C++-шим кадрового слоя §1.26) на
+# каждом push/PR. Секретов подписи здесь НЕТ — CI собирает только debug/unsigned
+# и не публикует артефакты (публикация — release.yml).
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Отменяем устаревшие прогоны той же ветки/PR — экономим раннеры.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # Детерминированное окружение (совпадает с scripts/verify-reproducible-build.sh).
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: "0"
+  RUST_BACKTRACE: "1"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 1) Крипто-ядро (Rust): формат, линт, юнит-тесты слоёв A/B и транспорта.
+  #    Тулчейн берётся из rust/aegis-core/rust-toolchain.toml (пин 1.97.0, P9).
+  # ---------------------------------------------------------------------------
+  rust-core:
+    name: rust-core (fmt · clippy · tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rust/aegis-core
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # libsignal (фича signal) генерирует код через prost-build → нужен protoc.
+      - name: Install protoc
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends protobuf-compiler
+
+      # rustup уже стоит на ubuntu-latest; rust-toolchain.toml сам доустановит 1.97.0.
+      - name: Show pinned toolchain
+        run: |
+          rustup show active-toolchain || true
+          rustc --version
+          cargo --version
+
+      - name: Cargo cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            rust/aegis-core/target
+          key: cargo-${{ runner.os }}-${{ hashFiles('rust/aegis-core/Cargo.lock', 'rust/aegis-core/rust-toolchain.toml') }}
+          restore-keys: |
+            cargo-${{ runner.os }}-
+
+      - name: Format check
+        run: cargo fmt --all --check
+
+      # Свою крипту не пишем (§1) — clippy держит качество клея. Полный набор фич,
+      # чтобы линтить и слой B (signal), и транспорт (tor).
+      - name: Clippy (signal, tor)
+        run: cargo clippy --all-targets --locked --features signal,tor
+
+      # Базовый набор (слой A + аккаунт + PSK): 49/49, без сети сверх crates.io.
+      - name: Tests (base)
+        run: cargo test --locked
+
+      # Полный набор: слой B (libsignal, git) + транспорт (Arti) + кадровый AEAD: 68/68.
+      - name: Tests (signal, tor)
+        run: cargo test --locked --features signal,tor
+
+  # ---------------------------------------------------------------------------
+  # 2) Android smoke-сборка: Kotlin/Compose + нативный C++-шим кадрового слоя
+  #    (§1.26, externalNativeBuild/CMake). Ловит поломки ABI webrtc_frame_abi.h,
+  #    Kotlin и Gradle-конфигурации. Rust/PT здесь ОТКЛЮЧЕНЫ (их корректность
+  #    проверяет job rust-core) — так job быстрый и не тянет Arti/Go.
+  # ---------------------------------------------------------------------------
+  android:
+    name: android (assembleDebug · C++ frame shim)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      # Пин NDK/CMake — совпадает с libs.versions.toml / app/build.gradle.kts.
+      - name: Install NDK & CMake
+        run: |
+          sdkmanager --install "ndk;30.0.15729638" "cmake;3.22.1"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # buildRust=false / buildPt=false: smoke-сборка Kotlin+C++ без тяжёлых
+      # нативных зависимостей. buildFrame остаётся включённым (компилирует
+      # libaegis_frame.so из src/main/cpp — это и есть цель проверки §1.26).
+      - name: Assemble debug (Kotlin + C++ frame shim, no Rust/PT)
+        run: ./gradlew --no-daemon :app:assembleDebug -Paegis.buildRust=false -Paegis.buildPt=false
+
+      - name: Unit tests (JVM modules)
+        run: ./gradlew --no-daemon testDebugUnitTest -Paegis.buildRust=false -Paegis.buildPt=false

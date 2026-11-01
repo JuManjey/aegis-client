@@ -1,0 +1,54 @@
+AEGIS is a zero-trust messenger for Android that assumes nothing — not the
+network, not the provider, not the transport, not even its own server.
+
+It combines the industry-standard Signal Protocol (PQXDH + Double Ratchet) with a
+second encryption layer keyed by a secret that never passes through the server,
+and routes all traffic over Tor by default. We do not invent our own
+cryptography: every primitive comes from audited libraries.
+
+Key properties
+• Multi-layer encryption (defense-in-depth). Each message is wrapped in a
+  cascade container (XChaCha20-Poly1305 → AES-256-GCM → Camellia-256 →
+  Twofish-256) on a key that is never sent through the server, then sealed again
+  by the Signal Double Ratchet. Breaking one of the ciphers or the Signal layer
+  does not reveal content. Guard the container pre-shared key (PSK) as your main
+  secret: in the current version, whoever learns it can silently join the
+  conversation as another device of your contact.
+• Tor by default. All client traffic, calls included, is routed through an
+  embedded Tor (Arti); the relay is a v3 Onion Service. Bridges and pluggable
+  transports (obfs4, snowflake, meek) help bypass censorship. You can turn Tor
+  off for speed — the app then warns plainly that the server and your call
+  partner will see your IP; encryption stays the same.
+• No phone number. Accounts are a cryptographic key pair; sign in with a
+  login/password or an auto-generated identity. Recovery is via a mnemonic
+  phrase (it restores the account, not the message history).
+• Adding contacts. In person, by exchanging QR codes: the PSK never passes
+  through the server, so even a fully malicious server cannot MITM you.
+  Remotely, by contact address: the shared secret is derived from a signed
+  handshake. Mnemonic and NFC exchange do not work yet.
+• On-device protection. SQLCipher database, keys in the Android Keystore /
+  StrongBox, password (Argon2id) or biometric unlock, screenshot blocking
+  (FLAG_SECURE) on every screen except the QR scanner, no cloud backup.
+• Encrypted calls. Voice and video over WebRTC/DTLS-SRTP with an additional
+  AES-128-GCM frame layer keyed from the Signal channel and the PSK, plus a
+  short authentication string (SAS); with Tor on, media goes over Tor too.
+• Emergency wipe. Crypto-shredding of all keys (instant) plus best-effort
+  overwrite of free space (up to 4 GiB), with an optional duress password that
+  wipes data instead of unlocking.
+• Auto-deletion. The server keeps messages for at most 7 days; on the device
+  you can choose a shorter window.
+• Secure defaults (Paranoid profile); read receipts, typing indicators and
+  online status are on, but can be turned off in privacy settings.
+
+Honest trade-offs
+Out-of-band key exchange adds friction and requires an in-person contact. The
+static PSK does not provide forward secrecy on its own (the Signal layer does).
+The server cannot read content, but metadata is not fully protected from it:
+the relay operator can link one user's mailboxes and reconstruct who talks to
+whom (without names), and message type and size are visible to it. Revoking a
+linked device is not yet reliable. More layers mean more surface area, so an
+independent security audit is mandatory — the project is fully open source
+(GPL-3.0-or-later) with reproducible builds to make that audit verifiable.
+
+Status: this is a phase-2 build. It has not yet undergone an external security
+audit. Do not rely on it for high-risk use until that audit is complete.

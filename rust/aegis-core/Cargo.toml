@@ -1,0 +1,155 @@
+[package]
+name = "aegis-core"
+version = "0.1.0"
+edition = "2021"
+description = "AEGIS native crypto/transport core (Phase 1 scaffold): единый Rust-модуль для каскада (слой A), libsignal (слой B) и Arti/Tor."
+license = "GPL-3.0-or-later"
+publish = false
+
+[lib]
+# libaegis_core.so, загружается из Kotlin через System.loadLibrary(\"aegis_core\").
+name = "aegis_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+# JNI-мост Kotlin <-> Rust.
+jni = "0.21"
+
+# --- ФАЗА 2, P1: аккаунт без телефона (§7.1) ---
+# Мы НЕ пишем свою криптографию (§1) — используем аудированные крейты.
+ed25519-dalek = "2"                                          # Ed25519 (подписи identity)
+x25519-dalek = { version = "2", features = ["static_secrets"] } # X25519 (ECDH identity)
+argon2 = "0.5"                                               # Argon2id (KDF пароля)
+bip39 = "2"                                                  # BIP-39 мнемоника (восстановление)
+hkdf = "0.12"                                                # HKDF-SHA512, разделение доменов
+sha2 = "0.10"                                                # SHA-256/512
+chacha20poly1305 = "0.10"                                    # XChaCha20-Poly1305 AEAD (запечатывание seed + каскад K1)
+zeroize = { version = "1", features = ["derive"] }           # надёжное затирание секретов в памяти
+getrandom = "0.2"                                            # криптографический ГСЧ ОС (§6.1)
+base64 = "0.22"                                              # кодирование бинарных данных для JNI
+serde = { version = "1", features = ["derive"] }             # (де)сериализация через границу JNI
+serde_json = "1"
+
+# --- ФАЗА 2, P3: каскадный контейнер (слой A, §5) ---
+# Каскад 4 независимых AEAD: XChaCha20-Poly1305 → AES-256-GCM → Camellia-256(EAX)
+# → Twofish-256(EAX). Свою крипту НЕ пишем (§1) — только аудированные крейты
+# RustCrypto. Camellia/Twofish — блочные шифры (cipher 0.4), оборачиваются в
+# аутентифицированный режим EAX (aead 0.5), чтобы КАЖДЫЙ слой был AEAD с тегом.
+#
+# ПОЧЕМУ Camellia-256, а НЕ Serpent-256 (§5 «или обоснуй замену»): аудированный
+# крейт RustCrypto `serpent` во ВСЕХ опубликованных версиях жёстко фиксирует
+# `KeySize = U16` — принимает только 128-битный ключ, то есть настоящий
+# Serpent-256 через RustCrypto недостижим. Camellia-256 — стандартизованный
+# шифр (RFC 3713, ISO/IEC 18033-3, NESSIE, CRYPTREC) с 256-битным ключом,
+# отдельным от AES/Twofish семейством → сохраняет идею каскада «4 независимых
+# сильных 256-бит слоя». Решение согласовано с владельцем.
+aead = { version = "0.5", features = ["alloc"] }             # единый трейт Aead для всех слоёв каскада
+aes-gcm = "0.10"                                             # AES-256-GCM (каскад K2), AEAD
+eax = "0.5"                                                  # EAX AEAD-обёртка над Camellia/Twofish (каскад K3/K4)
+camellia = "0.1"                                             # Camellia-256 (блочный шифр, cipher 0.4)
+twofish = "0.7"                                              # Twofish-256 (блочный шифр, cipher 0.4)
+
+# --- P2: Signal Protocol (слой B). Официальная libsignal не публикуется на
+# crates.io — подключается как git-зависимость и включается фича-флагом `signal`,
+# чтобы не удорожать обычную сборку, пока идёт интеграция X3DH/Double Ratchet.
+[dependencies.libsignal-protocol]
+git = "https://github.com/signalapp/libsignal"
+tag = "v0.94.5"
+optional = true
+
+# Версию rand держим в синхроне с libsignal (workspace rand 0.9.x), иначе
+# generic-границы `R: Rng + CryptoRng` в process_prekey_bundle/message_* не
+# удовлетворяются (трейты рандома должны быть из той же версии крейта).
+[dependencies.rand]
+version = "0.9"
+optional = true
+
+# P6: персистентные stateful-сессии Signal. Трейты хранилищ libsignal
+# (`SessionStore`/`IdentityKeyStore`/…) объявлены как `#[async_trait(?Send)]`,
+# поэтому наша собственная (сериализуемая) реализация этих трейтов тоже требует
+# макроса async-trait. Свою криптографию мы не пишем (§1) — только храним
+# сериализованные записи libsignal (`SessionRecord`/`PreKeyRecord`/…).
+[dependencies.async-trait]
+version = "0.1"
+optional = true
+
+# --- ФАЗА 2, P5: встроенный Tor (Arti, §7.2/§10.5/§10.11) ---
+# Мы НЕ пишем свой Tor (§1) — берём официальный Arti (Rust) от Tor Project.
+# Тяжёлая зависимость (сотни крейтов), поэтому за фичей `tor` и собирается
+# best-effort (как слой B): если тулчейн/сеть недоступны — .so соберётся без неё.
+# TLS — rustls (без OpenSSL/NDK-C-зависимостей). bridge-client + pt-client —
+# мосты и pluggable transports (obfs4/snowflake/meek, §14.7). onion-service-client
+# — подключение к onion-релею v3 (§7.2/§12.2).
+[dependencies.arti-client]
+version = "0.43"
+optional = true
+default-features = false
+features = ["tokio", "rustls", "compression", "bridge-client", "pt-client", "onion-service-client"]
+
+[dependencies.tor-rtcompat]
+version = "0.43"
+optional = true
+default-features = false
+features = ["tokio", "rustls"]
+
+[dependencies.tokio]
+version = "1"
+optional = true
+default-features = false
+features = ["rt", "rt-multi-thread", "net", "io-util", "time", "sync", "macros"]
+
+[dependencies.futures]
+version = "0.3"
+optional = true
+
+# Arti (tor-dirmgr/keymgr) хранит директорию/ключи в SQLite. По умолчанию
+# libsqlite3-sys линкуется с СИСТЕМНОЙ `-lsqlite3`, которой нет в Android NDK
+# (ld.lld: unable to find library -lsqlite3). Включаем `bundled` — sqlite
+# компилируется из исходников внутрь .so. Версия совпадает с той, что тянет
+# Arti (Cargo.lock), чтобы фича `bundled` унифицировалась на общий libsqlite3-sys.
+[dependencies.rusqlite]
+version = "0.39"
+optional = true
+features = ["bundled"]
+
+# rustls 0.23 больше НЕ выбирает CryptoProvider автоматически, если фича
+# провайдера не активирована однозначно во всём графе зависимостей. Arti тянет
+# rustls, используя `ring` напрямую, но не включает одноимённую фичу самого
+# крейта `rustls` → на устройстве при первом TLS-хендшейке процесс паникует
+# («Could not automatically determine the process-level CryptoProvider»).
+# Включаем фичу `ring` у общего (унифицированного) крейта rustls и явно ставим
+# ring-провайдер по умолчанию в tor::start (см. tor.rs). Свою крипту не пишем —
+# ring аудирован и уже в графе Arti.
+[dependencies.rustls]
+version = "0.23"
+optional = true
+default-features = false
+features = ["ring"]
+
+[features]
+default = []
+# Включает интеграцию libsignal (слой B). Требует git-доступа при сборке.
+signal = ["dep:libsignal-protocol", "dep:rand", "dep:async-trait"]
+# Включает встроенный Tor-транспорт (Arti, слой транспорта P5). Тяжёлая сборка.
+tor = [
+    "dep:arti-client",
+    "dep:tor-rtcompat",
+    "dep:tokio",
+    "dep:futures",
+    "dep:rusqlite",
+    "dep:rustls",
+]
+
+[profile.release]
+# Оптимизация под размер + LTO. Важно для мобильного .so и воспроизводимости.
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
+# Reproducible builds (P9, §9/§12.1): абсолютные пути к исходникам и к
+# $CARGO_HOME/registry убираются из .so ремапом путей. В Cargo 1.97.0 профильный
+# ключ `trim-paths` ещё НЕ стабилизирован, поэтому ремап задаётся через
+# RUSTFLAGS="--remap-path-prefix=..." в scripts/verify-reproducible-build.sh
+# (см. docs/reproducible-builds.md). НЕ добавлять сюда `trim-paths` до
+# стабилизации — иначе ломается парсинг манифеста на стабильном тулчейне.

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Сеть: весь трафик по умолчанию через Tor (§7.2). -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Разблокировка приложения биометрией/PIN (§8 store.biometricLock). -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!-- Уведомления (Android 13+). Контент в превью по умолчанию скрыт (§14.3). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Фоновый приём сообщений через Tor без FCM (§14.5/§7.6): foreground-service
+         держит процесс живым для long-poll поверх Tor. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- Android 14+ (API 34): specialUse — единственный тип FGS БЕЗ лимита
+         времени работы. У dataSync на Android 15+ бюджет 6 часов в сутки, после
+         которого система вызывает Service.onTimeout() и убивает процесс: для
+         мессенджера без push это «через шесть часов приложение глухое».
+         Обоснование типа — в android:value свойства ниже. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <!-- Замок процессора для long-poll поверх Tor. Foreground-service защищает
+         ПРОЦЕСС от выгрузки, но НЕ мешает системе усыплять процессор: в Doze
+         сокет long-poll остаётся непрочитанным, и цепь Tor отваливается по
+         таймауту. Замок берётся ТОЛЬКО на время работы MessageSyncService
+         (то есть пока аккаунт разблокирован) и всегда с таймаутом. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Звонки: Android 14+ требует FGS типа microphone/camera для AudioRecord. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+    <!-- Камера — сканирование QR при обмене PSK (§6.2/P4) и видеозвонки (§7.5). -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- NFC — обмен PSK при касании устройств, локально и без сети (§6.2/P4). -->
+    <uses-permission android:name="android.permission.NFC" />
+    <!-- Звонки (P8, §7.5): микрофон и управление аудиомаршрутом для WebRTC. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <!-- Непрерывная вибрация при входящем звонке (§14.5). -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Входящий звонок на заблокированном экране (§7.5/§14.5): поднять экран
+         звонка, не заставляя пользователя сначала разблокировать телефон.
+         Без этого разрешения Android 14+ понижает full-screen intent до
+         heads-up, и «Принять» нажимается уже после разблокировки — именно тот
+         путь, на котором система отказывала в FGS микрофона. Содержимое
+         остаётся скрытым: уведомление VISIBILITY_SECRET, а экран звонка на
+         блокировке показывает обезличенную карточку (см. CallScreen). -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <!-- Исключение из «Оптимизации батареи». Разрешение только ОБЪЯВЛЯЕТСЯ: без
+         него системный диалог ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS вообще
+         не открывается. Само исключение выдаёт пользователь и только вручную —
+         приложение никогда не включает его само (см. SystemGrants.openBatteryExemption). На
+         агрессивных прошивках (Samsung/Xiaomi/Huawei) без него приложение
+         «усыпляют» независимо от foreground-сервиса и замка процессора. -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- Камера и NFC не обязательны: QR/NFC — лишь один из способов обмена
+         (есть также ручной ввод мнемоники), поэтому required=false. -->
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+    <uses-feature android:name="android.hardware.nfc" android:required="false" />
+    <uses-feature android:name="android.hardware.nfc.hce" android:required="false" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
+
+    <application
+        android:name=".AegisApplication"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AEGIS"
+        tools:targetApi="31">
+
+        <!-- Точка входа приложения. Сам LAUNCHER-ярлык объявлен НЕ здесь, а в
+             activity-alias'ах ниже (§14.6, смена/маскировка иконки): включён
+             ровно один alias, остальные выключены. MainActivity при этом всегда
+             доступна для явных интентов (напр. deep-link из уведомления §14.5),
+             поэтому её компонент никогда не выключаем. -->
+        <!--
+            showWhenLocked / turnScreenOn объявлены ЗДЕСЬ, а в рантайме
+            (MainActivity.applyLockScreenFlags) уточняются по состоянию звонка.
+
+            Почему атрибуты оставлены. Full-screen intent входящего звонка поднимает
+            Activity С НУЛЯ, когда она уже уничтожена. Атрибуты манифеста система
+            читает ДО создания окна, поэтому карточка звонка появляется поверх
+            блокировки с первого кадра.
+
+            Почему рантайм их снимает. Без звонка окно поверх блокировки — это
+            переписка, видимая без PIN телефона, и автоблокировка, срабатывающая при
+            каждом включении экрана, а с ней и остановка приёма звонков. Поэтому
+            MainActivity.onCreate синхронно, до первого кадра, оставляет флаги
+            только при живом звонке или звонке при закрытом аккаунте.
+
+            §14.3 не ослабляется: FLAG_SECURE стоит глобально, а поверх блокировки
+            CallScreen рисует обезличенную карточку (без имени, кода сверки и
+            этапов), и аккаунт остаётся за auth-gate.
+        -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:showWhenLocked="true"
+            android:theme="@style/Theme.AEGIS"
+            android:turnScreenOn="true"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Иконка по умолчанию (щит бренда §13). Включена; остальные — нет. -->
+        <activity-alias
+            android:name=".appearance.LauncherDefault"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <!-- «Минимал»: тот же щит, бирюзовый фон. -->
+        <activity-alias
+            android:name=".appearance.LauncherMinimal"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_minimal"
+            android:roundIcon="@mipmap/ic_launcher_minimal"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <!-- Маскировка (§14.6/§14.1): иконка и имя «Калькулятор». -->
+        <activity-alias
+            android:name=".appearance.LauncherCalc"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_calc"
+            android:roundIcon="@mipmap/ic_launcher_calc"
+            android:label="@string/app_icon_calc_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherNotes"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_notes"
+            android:roundIcon="@mipmap/ic_launcher_notes"
+            android:label="@string/app_icon_notes_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherWeather"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_weather"
+            android:roundIcon="@mipmap/ic_launcher_weather"
+            android:label="@string/app_icon_weather_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherClock"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_clock"
+            android:roundIcon="@mipmap/ic_launcher_clock"
+            android:label="@string/app_icon_clock_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherCompass"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_compass"
+            android:roundIcon="@mipmap/ic_launcher_compass"
+            android:label="@string/app_icon_compass_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherFiles"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_files"
+            android:roundIcon="@mipmap/ic_launcher_files"
+            android:label="@string/app_icon_files_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherCalendar"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_calendar"
+            android:roundIcon="@mipmap/ic_launcher_calendar"
+            android:label="@string/app_icon_calendar_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherFlashlight"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_flashlight"
+            android:roundIcon="@mipmap/ic_launcher_flashlight"
+            android:label="@string/app_icon_flashlight_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherMusic"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_music"
+            android:roundIcon="@mipmap/ic_launcher_music"
+            android:label="@string/app_icon_music_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherGallery"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_gallery"
+            android:roundIcon="@mipmap/ic_launcher_gallery"
+            android:label="@string/app_icon_gallery_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".appearance.LauncherRecorder"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_recorder"
+            android:roundIcon="@mipmap/ic_launcher_recorder"
+            android:label="@string/app_icon_recorder_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <!-- HCE-сервис для обмена PSK по NFC при касании (§6.2/P4). Отдаёт
+             полезную нагрузку PSK только когда пользователь явно открыл экран
+             показа ключа (см. PskNfcPayloadHolder). Работает локально, без сети. -->
+        <service
+            android:name=".nfc.PskHostApduService"
+            android:exported="true"
+            android:permission="android.permission.BIND_NFC_SERVICE">
+            <intent-filter>
+                <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.nfc.cardemulation.host_apdu_service"
+                android:resource="@xml/psk_apduservice" />
+        </service>
+
+        <!-- Фоновый приём сообщений через Tor (§14.5/§7.6): без FCM, поэтому
+             держим процесс живым foreground-сервисом. Объявлены ОБА типа, а
+             рантайм выбирает один (MessageSyncService.foregroundType):
+               * API 34+ → specialUse: единственный тип без лимита времени;
+               * API 29..33 → dataSync: лимитов там ещё нет, тип точнее по смыслу.
+             Не экспортируется (запускается только самим приложением). -->
+        <service
+            android:name=".notifications.MessageSyncService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync|specialUse">
+            <!-- Обоснование specialUse (требование Android 14+ и ревью Google Play).
+                 AEGIS сознательно не использует FCM/push: любой push раскрыл бы
+                 серверу и Google факт и время доставки (§7.6, zero-trust). Единственный
+                 способ получать сообщения и ЗВОНКИ — непрерывный long-poll поверх Tor,
+                 который обязан жить всё время, пока аккаунт разблокирован. Ни один
+                 типизированный FGS этот сценарий не описывает, а dataSync ограничен
+                 по времени и делает мессенджер глухим после исчерпания бюджета. -->
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Непрерывный приём сообщений и звонков через Tor без push-сервисов (FCM не используется по требованиям приватности)" />
+        </service>
+
+        <!-- Медиазвонок: удерживает право на микрофон/камеру, пока идёт WebRTC. -->
+        <service
+            android:name=".notifications.CallMediaService"
+            android:exported="false"
+            android:foregroundServiceType="microphone|camera" />
+
+        <!-- Действие «Отклонить» из уведомления о входящем звонке (§14.5): сброс
+             в фоне, без вывода приложения. Не экспортируется — триггерится только
+             PendingIntent'ами самого приложения. -->
+        <receiver
+            android:name=".notifications.CallActionReceiver"
+            android:exported="false" />
+
+        <!-- Временный доступ системной камеры к приватному кэш-файлу для съёмки
+             вложения (§14.4, follow-up). Не экспортируется; доступ выдаётся только
+             через grantUriPermissions на конкретный Uri. Снятый JPEG затирается
+             после прочтения в память (CameraCapture.shred, §6.3/§7.4). -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

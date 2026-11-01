@@ -1,0 +1,74 @@
+# =============================================================================
+# AEGIS — рецепт сборки для F-Droid (fdroidserver metadata, §12.1).
+#
+# Этот файл — ШАБЛОН для отправки в основной репозиторий F-Droid (fdroiddata:
+# metadata/com.aegis.messenger.yml) ИЛИ для собственного F-Droid-репозитория.
+# Он собирает приложение ИЗ ИСХОДНИКОВ, включая нативные Rust/Go/C++ артефакты
+# (без каких-либо предсобранных бинарей — требование F-Droid, §12.1).
+#
+# Плейсхолдеры (заменить перед публикацией):
+#   <ORG>  — GitHub-организация/пользователь (Repo/SourceCode/IssueTracker).
+#   commit — тег/хэш конкретного релиза.
+# Проверка локально: `fdroid build -v com.aegis.messenger` (см. fdroid/README.md).
+# =============================================================================
+
+Categories:
+  - Internet
+  - Security
+License: GPL-3.0-or-later
+AuthorName: AEGIS Project
+WebSite: https://github.com/<ORG>/aegis-client
+SourceCode: https://github.com/<ORG>/aegis-client
+IssueTracker: https://github.com/<ORG>/aegis-client/issues
+Changelog: https://github.com/<ORG>/aegis-client/blob/main/CHANGELOG.md
+
+# Полностью открытый код, без проприетарных зависимостей. Если WebRTC-артефакт
+# (io.github.webrtc-sdk) будет расценён F-Droid как предсобранный бинарь, его
+# нужно собирать из исходников либо пометить соответствующий AntiFeature — см.
+# fdroid/README.md (раздел «Известные сложности»).
+AntiFeatures:
+  - NonFreeNet   # подключается к сети/серверу AEGIS (как любой мессенджер)
+
+RepoType: git
+Repo: https://github.com/<ORG>/aegis-client.git
+
+Builds:
+  - versionName: 0.4.2
+    versionCode: 6
+    commit: v0.4.2
+    subdir: app
+    sudo:
+      # protoc (libsignal/prost-build) + Go (pluggable transports, §14.7).
+      - apt-get update
+      - apt-get install -y --no-install-recommends protobuf-compiler golang-go
+      # Rust-тулчейн ТОЧНОЙ версии (совпадает с rust-toolchain.toml, P9).
+      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs
+        | sh -s -- -y --default-toolchain 1.97.0 --profile minimal
+      - . "$HOME/.cargo/env"
+      - rustup target add aarch64-linux-android x86_64-linux-android
+      - cargo install cargo-ndk --version 3.5.4 --locked
+    gradle:
+      - yes
+    # F-Droid провижнит NDK этой версии для нативной сборки.
+    ndk: 30.0.15729638
+    prebuild:
+      # Собираем нативное крипто-ядро (слои A/B + Arti) и PT из исходников в jniLibs.
+      - . "$HOME/.cargo/env"
+      - export ANDROID_NDK_HOME="$$NDK$$"
+      - cargo ndk -t arm64-v8a -t x86_64 -o crypto/src/main/jniLibs
+        build --release --locked --features signal,tor
+        --manifest-path ../rust/aegis-core/Cargo.toml
+      - bash ../pt/build_pt.sh arm64-v8a x86_64
+    # Rust/PT уже собраны в prebuild — Gradle не должен запускать их повторно;
+    # C++-шим кадрового слоя (§1.26) собирается через externalNativeBuild/CMake.
+    gradleprops:
+      - aegis.buildRust=false
+      - aegis.buildPt=false
+      - aegis.abiFilters=arm64-v8a,x86_64
+    output: build/outputs/apk/release/app-release-unsigned.apk
+
+# Обновление по git-тегам вида vX.Y.Z.
+AutoUpdateMode: Version v%v
+UpdateCheckMode: Tags
+CurrentVersion: 0.4.2
+CurrentVersionCode: 6

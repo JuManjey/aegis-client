@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Дублируются из палитры §13 только для нужд платформенных ресурсов
+         (тема окна, splash, фон адаптивной иконки). В Compose используется
+         AegisTheme, а не эти значения. -->
+    <color name="aegis_background">#0A0E12</color>
+    <color name="aegis_surface">#10151B</color>
+    <color name="aegis_accent">#02D7F2</color>
+</resources>

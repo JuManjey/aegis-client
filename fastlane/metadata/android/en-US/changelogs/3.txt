@@ -1,0 +1,8 @@
+0.3.0:
+• Security: a new account no longer sees the previous account’s data — the device is fully wiped first (with confirmation).
+• Voice messages.
+• Honest delivery status and retry for unsent messages.
+• Calls: E2EE media layer, answering from the lock screen, stability.
+• Multi-device: device linking, “My devices”, forward-secret self-sync.
+• Automatic relay address discovery.
+• HUD interface, 10 app-icon disguises.

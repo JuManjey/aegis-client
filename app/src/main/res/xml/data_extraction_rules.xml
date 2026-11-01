@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Резервное копирование/перенос данных ЗАПРЕЩЕНЫ глобально (§14.4, §6.3:
+  allowBackup=false). Явно исключаем всё содержимое из облачных бэкапов и
+  device-transfer, чтобы чувствительные данные не покидали устройство.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" path="." />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" path="." />
+    </device-transfer>
+</data-extraction-rules>
